@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QuickBite | Admin Management Panel</title>
+    <title>Zipsbite | Admin Management Panel</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
@@ -41,7 +41,7 @@
                     <i class="fa-solid fa-gauge-high text-xl text-brand-500"></i>
                 </div>
                 <div>
-                    <h1 class="text-xl font-bold tracking-tight text-gray-900">QuickBite <span class="text-brand-500">Admin Panel</span></h1>
+                    <h1 class="text-xl font-bold tracking-tight text-gray-900">Zipsbite <span class="text-brand-500">Admin Panel</span></h1>
                     <span class="block text-xs text-gray-400 font-medium tracking-wider uppercase">Restaurant Control Center</span>
                 </div>
             </div>
@@ -154,7 +154,7 @@
     <!-- FOOTER -->
     <footer class="bg-white border-t border-gray-200 py-6 mt-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-xs text-gray-400">
-            QuickBite Admin Dashboard &copy; 2026. All rights reserved.
+            Zipsbite Admin Dashboard &copy; 2026. All rights reserved.
         </div>
     </footer>
 
@@ -304,6 +304,12 @@
                     });
                 }
 
+                // GPS Location link check
+                let locationHtml = `<p class="text-xs text-gray-600 mt-1 bg-gray-50 p-1.5 rounded border border-gray-200 max-w-xs break-all">${order.customer?.address || 'No address provided'}</p>`;
+                if (order.latitude && order.longitude) {
+                    locationHtml += `<a href="https://www.google.com/maps?q=${order.latitude},${order.longitude}" target="_blank" class="inline-block mt-1 text-xs bg-blue-50 text-blue-600 px-2 py-0.5 rounded font-semibold hover:underline"><i class="fa-solid fa-map-location-dot"></i> View on Google Maps</a>`;
+                }
+
                 const row = document.createElement('tr');
                 row.className = "hover:bg-gray-50/80 transition";
                 row.innerHTML = `
@@ -314,7 +320,7 @@
                     <td class="p-4">
                         <span class="font-bold block text-gray-900">${order.customer?.name || 'Unknown'}</span>
                         <a href="tel:${order.customer?.phone}" class="text-xs text-brand-600 font-semibold block hover:underline"><i class="fa-solid fa-phone"></i> ${order.customer?.phone || ''}</a>
-                        <p class="text-xs text-gray-600 mt-1 bg-gray-50 p-1.5 rounded border border-gray-200 max-w-xs break-all">${order.customer?.address || 'No address provided'}</p>
+                        ${locationHtml}
                     </td>
                     <td class="p-4 py-3">${itemsList}</td>
                     <td class="p-4 font-bold text-gray-900">Rs. ${Number(order.total || 0).toFixed(0)}</td>
@@ -330,7 +336,7 @@
                             <input type="text" id="time_${order.firebaseKey}" value="${order.deliveryTime || '30-40 mins'}" placeholder="e.g. 35 mins" class="w-32 text-xs border border-gray-200 rounded-lg px-2 py-1 bg-gray-50">
                         </div>
                         <button onclick="sendOrderUpdate('${order.firebaseKey}')" class="bg-brand-500 hover:bg-brand-600 text-white text-xs font-semibold px-3 py-1.5 rounded-xl shadow transition">
-                            <i class="fa-solid fa-paper-plane mr-1"></i> Send Notification
+                            <i class="fa-solid fa-paper-plane mr-1"></i> Send Update
                         </button>
                     </td>
                     <td class="p-4 text-center">
@@ -345,17 +351,25 @@
 
         function sendOrderUpdate(firebaseKey) {
             if (!db) return;
-            const newStatus = document.getElementById(`status_${firebaseKey}`).value;
-            const deliveryTime = document.getElementById(`time_${firebaseKey}`).value;
+            const statusElement = document.getElementById(`status_${firebaseKey}`);
+            const timeElement = document.getElementById(`time_${firebaseKey}`);
+
+            if (!statusElement || !timeElement) {
+                alert("Error: Could not find update fields.");
+                return;
+            }
+
+            const newStatus = statusElement.value;
+            const deliveryTime = timeElement.value;
 
             db.ref('orders/' + firebaseKey).update({
                 status: newStatus,
                 deliveryTime: deliveryTime
             }, (error) => {
                 if (!error) {
-                    alert("Order update and estimated delivery time sent to customer successfully!");
+                    alert("Order status & estimated delivery time updated successfully!");
                 } else {
-                    alert("Failed to update order.");
+                    alert("Failed to update order: " + error.message);
                 }
             });
         }
