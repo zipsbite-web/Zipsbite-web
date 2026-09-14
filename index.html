@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zipsbite.com | Fast & Delicious Food Delivery</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#fff1f2',
+                            100: '#ffe4e6',
+                            500: '#f43f5e',
+                            600: '#e11d48',
+                            700: '#be123c',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans antialiased min-h-screen flex flex-col justify-between">
+
+    <!-- HEADER / NAVBAR -->
+    <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md shadow-sm border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Logo -->
+            <div class="flex items-center space-x-3 cursor-pointer">
+                <div class="w-12 h-12 bg-brand-500 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-brand-500/30 overflow-hidden">
+                    <i class="fa-solid fa-burger text-2xl"></i>
+                </div>
+                <div>
+                    <span class="text-xl font-bold tracking-tight text-gray-900">Zips<span class="text-brand-500">bite</span><span class="text-xs text-gray-400 font-normal">.com</span></span>
+                    <span class="block text-xs text-gray-400 font-medium tracking-wider uppercase">Fast Food & Grill</span>
+                </div>
+            </div>
+
+            <!-- Cart Button -->
+            <div class="flex items-center space-x-3">
+                <button onclick="toggleCartModal(true)" class="relative bg-brand-50 hover:bg-brand-100 text-brand-600 p-3 rounded-2xl transition flex items-center space-x-2">
+                    <i class="fa-solid fa-bag-shopping text-lg"></i>
+                    <span id="cartCountBadge" class="hidden absolute -top-1 -right-1 bg-brand-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold shadow-md">0</span>
+                    <span class="hidden md:inline text-sm font-semibold pr-1">Cart</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN APP CONTAINER -->
+    <main class="flex-grow">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            
+            <!-- Hero Banner -->
+            <div class="relative bg-gradient-to-r from-gray-900 via-gray-800 to-brand-700 rounded-3xl p-6 sm:p-12 mb-10 overflow-hidden shadow-2xl">
+                <div class="relative z-10 max-w-xl">
+                    <span class="inline-block bg-brand-500/20 border border-brand-500/30 text-brand-300 text-xs font-semibold px-3 py-1 rounded-full mb-4 uppercase tracking-wider">🔥 Zipsbite.com Hot Deals</span>
+                    <h1 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight mb-4 leading-tight">Lightning Fast <span class="text-brand-500">Food Delivery</span></h1>
+                    <p class="text-gray-300 text-sm sm:text-base mb-6">Satisfy your cravings instantly with our handcrafted burgers, loaded pizzas, and crispy fries delivered right to your doorstep via Zipsbite.com.</p>
+                    <div class="flex items-center space-x-4">
+                        <a href="#menuSection" class="bg-brand-500 hover:bg-brand-600 text-white font-semibold px-6 py-3 rounded-2xl shadow-lg shadow-brand-500/30 transition transform hover:-translate-y-0.5">Order Now</a>
+                        <div class="flex items-center space-x-2 text-gray-300 text-sm">
+                            <i class="fa-solid fa-clock text-brand-400"></i>
+                            <span>Delivery in 30 mins</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="absolute right-0 bottom-0 opacity-20 sm:opacity-40 translate-x-10 translate-y-10 pointer-events-none">
+                    <i class="fa-solid fa-utensils text-[220px] text-white"></i>
+                </div>
+            </div>
+
+            <!-- Menu Section -->
+            <div id="menuSection" class="scroll-mt-28">
+                <!-- Category Filter Pills -->
+                <div class="flex items-center space-x-2 overflow-x-auto pb-4 mb-8 no-scrollbar" id="categoryFilters">
+                    <button onclick="filterCategory('All')" class="category-btn active px-5 py-2.5 rounded-2xl text-sm font-semibold whitespace-nowrap transition bg-brand-600 text-white shadow-md shadow-brand-500/20">All Items</button>
+                    <button onclick="filterCategory('Burgers')" class="category-btn px-5 py-2.5 rounded-2xl text-sm font-semibold whitespace-nowrap transition bg-white text-gray-600 hover:bg-gray-100 border border-gray-100">Burgers</button>
+                    <button onclick="filterCategory('Pizzas')" class="category-btn px-5 py-2.5 rounded-2xl text-sm font-semibold whitespace-nowrap transition bg-white text-gray-600 hover:bg-gray-100 border border-gray-100">Pizzas</button>
+                    <button onclick="filterCategory('Sides')" class="category-btn px-5 py-2.5 rounded-2xl text-sm font-semibold whitespace-nowrap transition bg-white text-gray-600 hover:bg-gray-100 border border-gray-100">Sides & Fries</button>
+                    <button onclick="filterCategory('Drinks')" class="category-btn px-5 py-2.5 rounded-2xl text-sm font-semibold whitespace-nowrap transition bg-white text-gray-600 hover:bg-gray-100 border border-gray-100">Beverages</button>
+                </div>
+
+                <!-- Products Grid -->
+                <div id="productsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    <!-- Loaded dynamically from Firebase -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-white border-t border-gray-100 py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-400 space-y-4 sm:space-y-0">
+            <div class="flex items-center space-x-2">
+                <div class="w-6 h-6 bg-brand-500 rounded-lg flex items-center justify-center text-white">
+                    <i class="fa-solid fa-burger text-xs"></i>
+                </div>
+                <span class="font-semibold text-gray-700">Zipsbite.com Delivery System</span>
+                <span>&copy; 2026 All rights reserved.</span>
+            </div>
+            <div>
+                <span class="text-gray-400">Fresh & Fast Food Delivery</span>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- ===== CART & CHECKOUT SLIDE-OVER MODAL ===== -->
+    <div id="cartModal" class="fixed inset-0 z-50 overflow-hidden hidden">
+        <div class="absolute inset-0 bg-gray-900/50 backdrop-blur-sm transition-opacity" onclick="toggleCartModal(false)"></div>
+        <div class="absolute inset-y-0 right-0 max-w-full flex pl-10">
+            <div class="w-screen max-w-md bg-white shadow-2xl flex flex-col">
+                <div class="p-6 border-b border-gray-100 flex items-center justify-between bg-gray-50">
+                    <div class="flex items-center space-x-2">
+                        <i class="fa-solid fa-bag-shopping text-brand-600 text-lg"></i>
+                        <h2 class="text-lg font-bold text-gray-900">Your Zipsbite Cart</h2>
+                    </div>
+                    <button onclick="toggleCartModal(false)" class="w-9 h-9 rounded-full bg-gray-200/70 hover:bg-gray-200 flex items-center justify-center text-gray-600 transition">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <div id="cartModalBody" class="flex-1 overflow-y-auto p-6 space-y-6"></div>
+                <div id="cartModalFooter" class="p-6 border-t border-gray-100 bg-gray-50"></div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ===== ORDER SUCCESS MODAL ===== -->
+    <div id="successModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm hidden">
+        <div class="bg-white rounded-3xl max-w-md w-full p-8 shadow-2xl text-center relative">
+            <div class="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-5 text-3xl shadow-inner">
+                <i class="fa-solid fa-check"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-900 mb-1">Order Placed on Zipsbite.com!</h3>
+            <p class="text-sm text-gray-500 mb-6">Your order has been sent to the restaurant. Admin will calculate delivery charges and send you the price quote.</p>
+            <div class="bg-gray-50 rounded-2xl p-4 text-left text-xs space-y-2 border border-gray-100 mb-6">
+                <div class="flex justify-between text-gray-500">
+                    <span>Order ID:</span>
+                    <span id="receiptOrderId" class="font-mono font-bold text-gray-800">#ZB-0000</span>
+                </div>
+                <div class="flex justify-between text-gray-500">
+                    <span>Customer Name:</span>
+                    <span id="receiptCustomerName" class="font-semibold text-gray-800">-</span>
+                </div>
+                <div class="flex justify-between font-bold text-gray-900 text-sm border-t border-gray-200 pt-2">
+                    <span>Subtotal Items:</span>
+                    <span id="receiptTotal" class="text-brand-600">Rs. 0.00</span>
+                </div>
+            </div>
+            <button onclick="closeSuccessModal()" class="w-full bg-brand-500 hover:bg-brand-600 text-white font-semibold py-3.5 rounded-2xl shadow-lg transition">
+                Continue Ordering
+            </button>
+        </div>
+    </div>
+
+
+    <!-- ===== FIREBASE & APP SCRIPT ===== -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+    <script>
+        /* ========================================================
+           FIREBASE CONFIGURATION
+           ======================================================== */
+        const firebaseConfig = {
+          apiKey: "AIzaSyDISQwF-uMbIYrB9nTcBVWHCKpUFf4RIkg",
+          authDomain: "fast-food-e6022.firebaseapp.com",
+          projectId: "fast-food-e6022",
+          storageBucket: "fast-food-e6022.firebasestorage.app",
+          messagingSenderId: "586270661328",
+          appId: "1:586270661328:web:3ec35332a0786001e69cd5"
+        };
+
+        let db;
+        try {
+            if (!firebase.apps.length) {
+                firebase.initializeApp(firebaseConfig);
+            }
+            db = firebase.database();
+        } catch (e) {
+            console.error("Firebase initialization failed:", e);
+        }
+
+        let menuProducts = [];
+        let cart = [];
+        let activeCategory = 'All';
+        let currentModalStep = 'cart';
+        let capturedLat = null;
+        let capturedLng = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initFirebaseListeners();
+            updateCartBadge();
+        });
+
+        function initFirebaseListeners() {
+            if (!db) return;
+
+            // Fetch Products Live from Firebase
+            db.ref('products').on('value', (snapshot) => {
+                const data = snapshot.val();
+                if (data) {
+                    menuProducts = Object.keys(data).map(key => ({ firebaseKey: key, ...data[key] }));
+                } else {
+                    menuProducts = [];
+                    seedDefaultProducts();
+                }
+                renderProducts(activeCategory === 'All' ? menuProducts : menuProducts.filter(p => p.category === activeCategory));
+            });
+        }
+
+        function seedDefaultProducts() {
+            const defaults = [
+                { name: "Ultimate Cheeseburger", category: "Burgers", price: 850, rating: 4.9, reviews: 124, image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600&q=80", description: "Juicy beef patty with double cheddar, crisp lettuce, tomato & special sauce." },
+                { name: "Pepperoni Inferno Pizza", category: "Pizzas", price: 1499, rating: 4.9, reviews: 210, image: "https://images.unsplash.com/photo-1628840042765-356cda07504e?auto=format&fit=crop&w=600&q=80", description: "Loaded with spicy pepperoni, mozzarella cheese, and rich tomato herb sauce." },
+                { name: "Loaded Truffle Fries", category: "Sides", price: 450, rating: 4.6, reviews: 67, image: "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=600&q=80", description: "Crispy golden french fries tossed in truffle oil and topped with melted cheese." },
+                { name: "Classic Cola", category: "Drinks", price: 200, rating: 4.9, reviews: 310, image: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=600&q=80", description: "Icy cold sparkling cola served with crushed ice and lemon slice." }
+            ];
+            defaults.forEach(item => db.ref('products').push(item));
+        }
+
+        // ================= USER FUNCTIONS =================
+        function renderProducts(productsToRender) {
+            const grid = document.getElementById('productsGrid');
+            grid.innerHTML = '';
+
+            if (productsToRender.length === 0) {
+                grid.innerHTML = `<div class="col-span-full py-12 text-center text-gray-400"><p>No items found.</p></div>`;
+                return;
+            }
+
+            productsToRender.forEach(product => {
+                const card = document.createElement('div');
+                card.className = "bg-white rounded-3xl p-4 shadow-sm hover:shadow-xl transition duration-300 border border-gray-100 flex flex-col justify-between group";
+                card.innerHTML = `
+                    <div>
+                        <div class="relative w-full h-48 rounded-2xl overflow-hidden mb-4 bg-gray-100">
+                            <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                            <span class="absolute top-3 left-3 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-xs font-semibold text-gray-800 shadow-sm">${product.category}</span>
+                        </div>
+                        <div class="flex items-center justify-between mb-1">
+                            <h3 class="font-bold text-gray-900 text-lg line-clamp-1">${product.name}</h3>
+                            <div class="flex items-center space-x-1 text-xs font-semibold text-amber-500 bg-amber-50 px-2 py-0.5 rounded-lg">
+                                <i class="fa-solid fa-star"></i>
+                                <span>${product.rating || 4.8}</span>
+                            </div>
+                        </div>
+                        <p class="text-xs text-gray-500 line-clamp-2 mb-4">${product.description}</p>
+                    </div>
+                    <div class="flex items-center justify-between pt-3 border-t border-gray-100">
+                        <div>
+                            <span class="text-xs text-gray-400 block">Price</span>
+                            <span class="text-lg font-extrabold text-gray-900">Rs. ${Number(product.price).toFixed(0)}</span>
+                        </div>
+                        <button onclick="addToCart('${product.firebaseKey}')" class="bg-brand-50 hover:bg-brand-600 text-brand-600 hover:text-white px-4 py-2.5 rounded-xl font-semibold text-sm transition shadow-sm flex items-center space-x-2">
+                            <i class="fa-solid fa-plus text-xs"></i>
+                            <span>Add</span>
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function filterCategory(category) {
+            activeCategory = category;
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                if (btn.textContent.includes(category) || (category === 'All' && btn.textContent.includes('All Items'))) {
+                    btn.className = "category-btn active px-5 py-2.5 rounded-2xl text-sm font-semibold whitespace-nowrap transition bg-brand-600 text-white shadow-md shadow-brand-500/20";
+                } else {
+                    btn.className = "category-btn px-5 py-2.5 rounded-2xl text-sm font-semibold whitespace-nowrap transition bg-white text-gray-600 hover:bg-gray-100 border border-gray-100";
+                }
+            });
+            renderProducts(category === 'All' ? menuProducts : menuProducts.filter(p => p.category === category));
+        }
+
+        function addToCart(firebaseKey) {
+            const product = menuProducts.find(p => p.firebaseKey === firebaseKey);
+            if (!product) return;
+
+            const existingItem = cart.find(item => item.firebaseKey === firebaseKey);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+            updateCartBadge();
+        }
+
+        function updateQuantity(firebaseKey, delta) {
+            const item = cart.find(i => i.firebaseKey === firebaseKey);
+            if (!item) return;
+
+            item.quantity += delta;
+            if (item.quantity <= 0) {
+                cart = cart.filter(i => i.firebaseKey !== firebaseKey);
+            }
+            updateCartBadge();
+            renderCartModalContent();
+        }
+
+        function updateCartBadge() {
+            const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const badge = document.getElementById('cartCountBadge');
+            if (totalCount > 0) {
+                badge.textContent = totalCount;
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
+            }
+        }
+
+        function toggleCartModal(isOpen) {
+            const modal = document.getElementById('cartModal');
+            if (isOpen) {
+                currentModalStep = 'cart';
+                renderCartModalContent();
+                modal.classList.remove('hidden');
+            } else {
+                modal.classList.add('hidden');
+            }
+        }
+
+        function updateCartTotals() {
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            if (document.getElementById('cartSubtotal')) document.getElementById('cartSubtotal').textContent = 'Rs. ' + subtotal.toFixed(0);
+            if (document.getElementById('cartGrandTotal')) document.getElementById('cartGrandTotal').textContent = 'Rs. ' + subtotal.toFixed(0) + ' (+ Delivery)';
+        }
+
+        function getLiveLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        capturedLat = position.coords.latitude;
+                        capturedLng = position.coords.longitude;
+                        const mapsUrl = `https://www.google.com/maps?q=${capturedLat},${capturedLng}`;
+                        document.getElementById('custAddress').value = `📍 GPS Location Link: ${mapsUrl}`;
+                        alert("Location successfully captured!");
+                    },
+                    (error) => {
+                        alert("Location access denied or failed. Please type your address manually.");
+                        console.error(error);
+                    },
+                    { enableHighAccuracy: true }
+                );
+            } else {
+                alert("Geolocation is not supported by your browser.");
+            }
+        }
+
+        function renderCartModalContent() {
+            const body = document.getElementById('cartModalBody');
+            const footer = document.getElementById('cartModalFooter');
+
+            if (cart.length === 0) {
+                body.innerHTML = `<div class="py-20 text-center text-gray-400"><i class="fa-solid fa-basket-shopping text-5xl mb-3 text-gray-200"></i><p class="font-semibold text-gray-600">Your cart is empty</p></div>`;
+                footer.innerHTML = `<button onclick="toggleCartModal(false)" class="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-3 rounded-2xl transition">Start Shopping</button>`;
+                return;
+            }
+
+            if (currentModalStep === 'cart') {
+                let itemsHtml = '<div class="space-y-4">';
+                let subtotal = 0;
+                cart.forEach(item => {
+                    subtotal += item.price * item.quantity;
+                    itemsHtml += `
+                        <div class="flex items-center justify-between bg-gray-50 p-3 rounded-2xl border border-gray-100">
+                            <div class="flex items-center space-x-3">
+                                <img src="${item.image}" class="w-14 h-14 rounded-xl object-cover">
+                                <div>
+                                    <h4 class="font-bold text-gray-900 text-sm line-clamp-1">${item.name}</h4>
+                                    <span class="text-xs text-brand-600 font-semibold">Rs. ${Number(item.price).toFixed(0)}</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <button onclick="updateQuantity('${item.firebaseKey}', -1)" class="w-7 h-7 bg-white border border-gray-200 rounded-lg flex items-center justify-center text-gray-600"><i class="fa-solid fa-minus text-xs"></i></button>
+                                <span class="w-6 text-center font-bold text-sm">${item.quantity}</span>
+                                <button onclick="updateQuantity('${item.firebaseKey}', 1)" class="w-7 h-7 bg-white border border-gray-200 rounded-lg flex items-center justify-center text-gray-600"><i class="fa-solid fa-plus text-xs"></i></button>
+                            </div>
+                        </div>
+                    `;
+                });
+                itemsHtml += '</div>';
+                body.innerHTML = itemsHtml;
+
+                footer.innerHTML = `
+                    <div class="space-y-2 mb-4 text-sm">
+                        <div class="flex justify-between text-gray-500"><span>Subtotal</span><span id="cartSubtotal" class="font-semibold text-gray-800">Rs. ${subtotal.toFixed(0)}</span></div>
+                        <div class="flex justify-between text-gray-500"><span>Delivery Charges</span><span class="text-xs font-semibold text-brand-600">Calculated by Admin</span></div>
+                        <div class="border-t border-gray-200 pt-2 flex justify-between font-bold text-gray-900 text-base"><span>Total (Items)</span><span id="cartGrandTotal" class="text-brand-600">Rs. ${subtotal.toFixed(0)}</span></div>
+                    </div>
+                    <button onclick="currentModalStep = 'checkout'; renderCartModalContent();" class="w-full bg-brand-500 hover:bg-brand-600 text-white font-semibold py-3.5 rounded-2xl shadow-lg transition">Proceed to Checkout</button>
+                `;
+            } else if (currentModalStep === 'checkout') {
+                const savedUser = JSON.parse(localStorage.getItem('zipsbite_customer')) || { name: '', phone: '', address: '' };
+
+                body.innerHTML = `
+                    <form id="checkoutForm" onsubmit="submitOrder(event)" class="space-y-4">
+                        <div><label class="block text-xs font-bold text-gray-600 uppercase mb-1">Full Name *</label><input type="text" id="custName" required value="${savedUser.name}" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm"></div>
+                        <div><label class="block text-xs font-bold text-gray-600 uppercase mb-1">Phone Number *</label><input type="tel" id="custPhone" required value="${savedUser.phone}" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm"></div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-600 uppercase mb-1">Delivery Address / Location *</label>
+                            <div class="mb-2">
+                                <button type="button" onclick="getLiveLocation()" class="w-full bg-blue-50 hover:bg-blue-100 text-blue-600 border border-blue-200 py-2.5 rounded-xl text-xs font-semibold flex items-center justify-center space-x-2 transition">
+                                    <i class="fa-solid fa-location-crosshairs text-sm"></i>
+                                    <span>Send My Current GPS Location</span>
+                                </button>
+                            </div>
+                            <textarea id="custAddress" required rows="2" placeholder="Type address or click GPS button above..." class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm">${savedUser.address || ''}</textarea>
+                        </div>
+                    </form>
+                `;
+                const sub = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
+                footer.innerHTML = `
+                    <div class="space-y-2 mb-4 text-sm">
+                        <div class="flex justify-between text-gray-500"><span>Subtotal</span><span>Rs. ${sub.toFixed(0)}</span></div>
+                        <div class="flex justify-between text-gray-500"><span>Delivery Fee</span><span class="text-xs text-brand-600 font-semibold">Manual Quote</span></div>
+                        <div class="border-t pt-2 flex justify-between font-bold text-base"><span>Total</span><span class="text-brand-600">Rs. ${sub.toFixed(0)}</span></div>
+                    </div>
+                    <div class="flex space-x-3">
+                        <button onclick="currentModalStep = 'cart'; renderCartModalContent();" class="w-1/3 bg-gray-200 py-3.5 rounded-2xl font-semibold">Back</button>
+                        <button onclick="document.getElementById('checkoutForm').requestSubmit()" class="w-2/3 bg-brand-500 hover:bg-brand-600 text-white font-semibold py-3.5 rounded-2xl shadow-lg">Place Order</button>
+                    </div>
+                `;
+            }
+        }
+
+        function submitOrder(event) {
+            event.preventDefault();
+            const name = document.getElementById('custName').value.trim();
+            const phone = document.getElementById('custPhone').value.trim();
+            const address = document.getElementById('custAddress').value.trim();
+
+            localStorage.setItem('zipsbite_customer', JSON.stringify({ name, phone, address }));
+
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const orderId = 'ZB-' + Math.floor(10000 + Math.random() * 90000);
+
+            const orderData = {
+                orderId,
+                customer: { name, phone, address },
+                latitude: capturedLat || null,
+                longitude: capturedLng || null,
+                items: cart.map(i => ({ name: i.name, price: i.price, quantity: i.quantity })),
+                subtotal: subtotal.toFixed(0),
+                deliveryFee: "Pending Manual Quote",
+                total: subtotal.toFixed(0),
+                status: "Pending Price Quote",
+                timestamp: new Date().toISOString()
+            };
+
+            // Order sent to Firebase 'orders' node for admin review
+            if (db) db.ref('orders').push(orderData);
+
+            document.getElementById('receiptOrderId').textContent = '#' + orderId;
+            document.getElementById('receiptCustomerName').textContent = name;
+            document.getElementById('receiptTotal').textContent = 'Rs. ' + subtotal.toFixed(0);
+            document.getElementById('successModal').classList.remove('hidden');
+
+            cart = [];
+            updateCartBadge();
+            toggleCartModal(false);
+        }
+
+        function closeSuccessModal() {
+            document.getElementById('successModal').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
