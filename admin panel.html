@@ -46,9 +46,9 @@
                 </div>
             </div>
             <div class="flex items-center space-x-3">
-                <button onclick="openAiScannerModal()" class="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white px-5 py-2.5 rounded-2xl font-semibold text-sm transition shadow-lg shadow-purple-500/20 flex items-center space-x-2">
-                    <i class="fa-solid fa-wand-magic-sparkles text-xs"></i>
-                    <span>AI Menu Scanner</span>
+                <button onclick="openVisualMenuModal()" class="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white px-5 py-2.5 rounded-2xl font-semibold text-sm transition shadow-lg shadow-emerald-500/20 flex items-center space-x-2">
+                    <i class="fa-solid fa-eye text-xs"></i>
+                    <span>Visual Menu Quick-Entry</span>
                 </button>
                 <button onclick="openAddProductModal()" class="bg-brand-500 hover:bg-brand-600 text-white px-5 py-2.5 rounded-2xl font-semibold text-sm transition shadow-lg shadow-brand-500/20 flex items-center space-x-2">
                     <i class="fa-solid fa-plus text-xs"></i>
@@ -135,7 +135,7 @@
                 </h2>
                 <div class="flex space-x-2 items-center">
                     <button onclick="deleteAllProductsWithPassword()" class="text-xs font-bold text-rose-600 bg-rose-50 hover:bg-rose-100 px-3 py-1.5 rounded-xl transition flex items-center space-x-1"><i class="fa-solid fa-trash-can"></i><span>Delete All Products</span></button>
-                    <button onclick="openAiScannerModal()" class="text-xs font-bold text-purple-600 bg-purple-50 hover:bg-purple-100 px-3 py-1.5 rounded-xl transition"><i class="fa-solid fa-wand-magic-sparkles mr-1"></i> Scan Menu Pic</button>
+                    <button onclick="openVisualMenuModal()" class="text-xs font-bold text-emerald-600 bg-emerald-50 hover:bg-emerald-100 px-3 py-1.5 rounded-xl transition"><i class="fa-solid fa-eye mr-1"></i> Visual Quick-Entry</button>
                     <button onclick="openAddProductModal()" class="text-xs font-bold text-brand-600 bg-brand-50 hover:bg-brand-100 px-3 py-1.5 rounded-xl transition">+ Add Product</button>
                 </div>
             </div>
@@ -167,78 +167,81 @@
     </footer>
 
 
-    <!-- ===== AI MENU SCANNER MODAL ===== -->
-    <div id="aiScannerModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/50 backdrop-blur-sm hidden">
-        <div class="bg-white rounded-3xl max-w-2xl w-full p-8 shadow-2xl relative max-h-[90vh] overflow-y-auto">
-            <div class="flex items-center justify-between mb-6">
+    <!-- ===== VISUAL MENU QUICK-ENTRY MODAL ===== -->
+    <div id="visualMenuModal" class="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-gray-900/60 backdrop-blur-sm hidden">
+        <div class="bg-white rounded-3xl max-w-7xl w-full h-[92vh] shadow-2xl relative flex flex-col overflow-hidden">
+            
+            <!-- Modal Header -->
+            <div class="p-5 border-b border-gray-200 flex items-center justify-between bg-gray-50 flex-shrink-0">
                 <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 bg-purple-100 text-purple-600 rounded-xl flex items-center justify-center">
-                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    <div class="w-10 h-10 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center">
+                        <i class="fa-solid fa-eye"></i>
                     </div>
                     <div>
-                        <h3 class="text-xl font-bold text-gray-900">Smart AI Menu Scanner</h3>
-                        <p class="text-xs text-gray-500">Upload any chalkboard or stylized menu image</p>
+                        <h3 class="text-lg font-bold text-gray-900">Visual Menu Quick-Entry Panel</h3>
+                        <p class="text-xs text-gray-500">Menu items pre-loaded with unique Shake images, Nehari, Biryani & fast food</p>
                     </div>
                 </div>
-                <button onclick="closeAiScannerModal()" class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-600"><i class="fa-solid fa-xmark"></i></button>
+                <button onclick="closeVisualMenuModal()" class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-600"><i class="fa-solid fa-xmark"></i></button>
             </div>
 
-            <!-- Upload View -->
-            <div id="scannerUploadView" class="space-y-6">
-                <div class="border-2 border-dashed border-gray-300 rounded-3xl p-8 text-center hover:border-purple-500 transition bg-purple-50/30">
-                    <input type="file" id="menuImageFile" accept="image/*" class="hidden" onchange="previewMenuImage(event)">
-                    <label for="menuImageFile" class="cursor-pointer space-y-3 block">
-                        <div class="w-16 h-16 bg-purple-100 text-purple-600 rounded-full flex items-center justify-center mx-auto text-2xl shadow-inner">
-                            <i class="fa-solid fa-cloud-arrow-up"></i>
+            <!-- Modal Split Body -->
+            <div class="flex-grow grid grid-cols-1 lg:grid-cols-12 overflow-hidden">
+                
+                <!-- LEFT SIDE: MENU IMAGE VIEWER -->
+                <div class="lg:col-span-5 bg-gray-900 p-4 flex flex-col justify-between border-r border-gray-800 overflow-y-auto">
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center text-white px-1">
+                            <span class="text-xs font-bold uppercase tracking-wider text-emerald-400"><i class="fa-solid fa-image mr-1"></i> Reference Menu Picture</span>
+                            <label for="visualMenuFileInput" class="cursor-pointer text-xs bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-xl font-semibold transition">
+                                <i class="fa-solid fa-upload mr-1"></i> Change Pic
+                            </label>
+                            <input type="file" id="visualMenuFileInput" accept="image/*" class="hidden" onchange="previewVisualMenuImage(event)">
                         </div>
-                        <div>
-                            <span class="font-bold text-gray-900 block">Click to upload menu picture</span>
-                            <span class="text-xs text-gray-400">Chalkboard, handwritten or printed menus</span>
+
+                        <!-- Upload Box if no image -->
+                        <div id="visualUploadPlaceholder" class="border-2 border-dashed border-gray-700 rounded-2xl p-6 text-center hover:border-emerald-500 transition cursor-pointer" onclick="document.getElementById('visualMenuFileInput').click()">
+                            <div class="w-12 h-12 bg-gray-800 text-emerald-400 rounded-full flex items-center justify-center mx-auto text-lg mb-2">
+                                <i class="fa-solid fa-cloud-arrow-up"></i>
+                            </div>
+                            <span class="font-bold text-white text-xs block">Upload menu picture reference</span>
                         </div>
-                    </label>
+
+                        <!-- Image Display Container -->
+                        <div id="visualImageViewerContainer" class="relative rounded-2xl overflow-hidden bg-black border border-gray-800 flex justify-center items-center">
+                            <img id="visualMenuImgPreview" src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500" class="max-h-[55vh] object-contain w-full">
+                        </div>
+                    </div>
+
+                    <div class="mt-4 bg-gray-800/60 p-3 rounded-xl border border-gray-700/60 text-xs text-gray-300">
+                        💡 <strong class="text-white">Notice:</strong> Shakes ki har item (Banana, Mango, Strawberry, Oreo waghaira) ki apni alag aur original image set ki gayi hai!
+                    </div>
                 </div>
 
-                <div id="imagePreviewContainer" class="hidden space-y-4">
-                    <div class="relative rounded-2xl overflow-hidden border border-gray-200 max-h-48 bg-black flex justify-center">
-                        <img id="menuPreviewImg" class="h-48 object-contain">
+                <!-- RIGHT SIDE: FAST ENTRY MATRIX TABLE -->
+                <div class="lg:col-span-7 bg-white p-6 flex flex-col justify-between overflow-hidden">
+                    <div class="flex justify-between items-center mb-4 flex-shrink-0">
+                        <h4 class="font-bold text-gray-900 text-sm uppercase tracking-wider">Items Entry Matrix (<span id="matrixCountBadge">0 Rows</span>)</h4>
+                        <button onclick="appendMatrixRowPreloaded('', 'Pizzas', 0, 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500'); updateMatrixCount();" class="bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold px-3 py-1.5 rounded-xl text-xs transition flex items-center space-x-1">
+                            <i class="fa-solid fa-plus text-brand-500"></i><span>Add More Row</span>
+                        </button>
                     </div>
-                    <div class="flex justify-end">
-                        <button onclick="startAiSmartScan()" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 rounded-xl shadow-lg shadow-purple-600/20 transition flex items-center justify-center space-x-2">
-                            <i class="fa-solid fa-bolt"></i>
-                            <span>Extract Menu with AI</span>
+
+                    <!-- Scrollable Rows Container -->
+                    <div class="flex-grow overflow-y-auto space-y-3 pr-2" id="matrixRowsContainer">
+                        <!-- Rows populated dynamically -->
+                    </div>
+
+                    <!-- Footer Actions -->
+                    <div class="pt-4 border-t border-gray-200 flex space-x-3 flex-shrink-0 mt-4">
+                        <button onclick="closeVisualMenuModal()" class="w-1/3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-3 rounded-2xl transition text-sm">Cancel</button>
+                        <button onclick="saveMatrixProductsToFirebase()" class="w-2/3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-2xl shadow-lg shadow-emerald-600/20 transition text-sm flex items-center justify-center space-x-2">
+                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                            <span>Save All to Inventory</span>
                         </button>
                     </div>
                 </div>
-            </div>
 
-            <!-- Processing Loading View -->
-            <div id="scannerLoadingView" class="hidden py-16 text-center space-y-4">
-                <div class="w-16 h-16 border-4 border-purple-600 border-t-transparent rounded-full animate-spin mx-auto"></div>
-                <h4 class="font-bold text-gray-900 text-lg">AI is reading your menu...</h4>
-                <p id="scannerStatusText" class="text-xs text-gray-500">Analyzing categories, items, and prices accurately...</p>
-            </div>
-
-            <!-- Results Review View -->
-            <div id="scannerResultView" class="hidden space-y-4">
-                <div class="flex justify-between items-center bg-purple-50 p-4 rounded-2xl border border-purple-100">
-                    <div>
-                        <h4 class="font-bold text-purple-900">Extracted Menu Successfully!</h4>
-                        <p class="text-xs text-purple-700">Review items and categories below before saving.</p>
-                    </div>
-                    <span id="extractedCountBadge" class="bg-purple-600 text-white text-xs font-bold px-3 py-1 rounded-full">0 Items</span>
-                </div>
-
-                <div class="max-h-80 overflow-y-auto space-y-3 pr-1" id="extractedItemsListContainer">
-                    <!-- Dynamically populated scanned items -->
-                </div>
-
-                <div class="pt-4 flex space-x-3">
-                    <button onclick="resetScanner()" class="w-1/3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-3 rounded-xl transition text-sm">Scan Another</button>
-                    <button onclick="saveScannedProductsToFirebase()" class="w-2/3 bg-brand-500 hover:bg-brand-600 text-white font-semibold py-3 rounded-xl shadow-lg transition text-sm flex items-center justify-center space-x-2">
-                        <i class="fa-solid fa-cloud-arrow-up"></i>
-                        <span>Save All to Inventory</span>
-                    </button>
-                </div>
             </div>
 
         </div>
@@ -261,14 +264,19 @@
                     <div>
                         <label class="block text-xs font-bold text-gray-600 uppercase mb-1">Category *</label>
                         <select id="newProdCategory" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-brand-500">
-                            <option value="Sandwiches">Sandwiches</option>
-                            <option value="Burgers">Burgers</option>
                             <option value="Pizzas">Pizzas</option>
+                            <option value="Broasts">Broasts</option>
+                            <option value="Burgers">Burgers</option>
+                            <option value="Beef Burger">Beef Burger</option>
+                            <option value="Chinese">Chinese</option>
                             <option value="Pasta">Pasta</option>
-                            <option value="Maggi">Maggi</option>
-                            <option value="French Fries">French Fries</option>
+                            <option value="Biryani">Biryani</option>
+                            <option value="Nehari">Nehari</option>
                             <option value="Shakes">Shakes</option>
-                            <option value="Mocktails">Mocktails</option>
+                            <option value="Shawarma">Shawarma</option>
+                            <option value="Sandwiches">Sandwiches</option>
+                            <option value="French Fries">French Fries</option>
+                            <option value="Fast Food">Fast Food</option>
                         </select>
                     </div>
                     <div>
@@ -318,8 +326,6 @@
 
         let adminProducts = [];
         let adminOrders = [];
-        let scannedExtractedItems = [];
-        let uploadedMenuImageBase64 = null;
 
         document.addEventListener('DOMContentLoaded', () => {
             initAdminListeners();
@@ -500,11 +506,14 @@
 
         function deleteProduct(firebaseKey) {
             if (confirm("Are you sure you want to delete this product from the store?")) {
-                db.ref('products/' + firebaseKey).remove();
+                if (firebaseKey && firebaseKey !== "undefined" && firebaseKey !== "null") {
+                    db.ref('products/' + firebaseKey).remove().catch((err) => {
+                        alert("Error deleting: " + err.message);
+                    });
+                }
             }
         }
 
-        // ===== DELETE ALL PRODUCTS WITH PASSWORD =====
         function deleteAllProductsWithPassword() {
             if (adminProducts.length === 0) {
                 alert("Inventory is already empty!");
@@ -512,7 +521,7 @@
             }
 
             const enteredPassword = prompt("Enter security password to delete ALL products:");
-            if (enteredPassword === null) return; // Cancelled
+            if (enteredPassword === null) return;
 
             if (enteredPassword === "fastfood1122") {
                 if (confirm("⚠️ WARNING: This will permanently delete all items from your store inventory. Are you completely sure?")) {
@@ -568,191 +577,199 @@
             }
         }
 
-        // ===== SMART AI MENU SCANNER LOGIC WITH ACCURATE IMAGES =====
-        function openAiScannerModal() {
-            document.getElementById('aiScannerModal').classList.remove('hidden');
-            resetScanner();
+        // ===== VISUAL MENU QUICK-ENTRY LOGIC (PRELOADED WITH UNIQUE SHAKE IMAGES) =====
+        function openVisualMenuModal() {
+            document.getElementById('visualMenuModal').classList.remove('hidden');
+            initMatrixRows();
         }
 
-        function closeAiScannerModal() {
-            document.getElementById('aiScannerModal').classList.add('hidden');
+        function closeVisualMenuModal() {
+            document.getElementById('visualMenuModal').classList.add('hidden');
         }
 
-        function resetScanner() {
-            document.getElementById('scannerUploadView').classList.remove('hidden');
-            document.getElementById('scannerLoadingView').classList.add('hidden');
-            document.getElementById('scannerResultView').classList.add('hidden');
-            document.getElementById('imagePreviewContainer').classList.add('hidden');
-            document.getElementById('menuImageFile').value = '';
-            uploadedMenuImageBase64 = null;
-            scannedExtractedItems = [];
-        }
-
-        function previewMenuImage(event) {
+        function previewVisualMenuImage(event) {
             const file = event.target.files[0];
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    uploadedMenuImageBase64 = e.target.result;
-                    document.getElementById('menuPreviewImg').src = uploadedMenuImageBase64;
-                    document.getElementById('imagePreviewContainer').classList.remove('hidden');
+                    document.getElementById('visualMenuImgPreview').src = e.target.result;
                 }
                 reader.readAsDataURL(file);
             }
         }
 
-        async function startAiSmartScan() {
-            if (!uploadedMenuImageBase64) {
-                alert("Please upload a menu image first!");
-                return;
-            }
-
-            document.getElementById('scannerUploadView').classList.add('hidden');
-            document.getElementById('scannerLoadingView').classList.remove('hidden');
-            document.getElementById('scannerStatusText').textContent = "Analyzing items and fetching accurate online food pictures...";
-
-            try {
-                await new Promise(resolve => setTimeout(resolve, 2500));
-
-                scannedExtractedItems = [
-                    // Sandwiches
-                    { name: "Potato Masala Sandwich", price: 30, category: "Sandwiches", description: "Delicious spiced potato masala filling", image: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=500" },
-                    { name: "Veg Sandwich", price: 40, category: "Sandwiches", description: "Fresh seasonal vegetables with mild sauce", image: "https://images.unsplash.com/photo-1550547660-d9450f859349?w=500" },
-                    { name: "Chocolate Sandwich", price: 50, category: "Sandwiches", description: "Rich creamy chocolate spread toast", image: "https://images.unsplash.com/photo-1539252554453-80ab65ce3586?w=500" },
-                    { name: "Cheese Chutney Sandwich", price: 50, category: "Sandwiches", description: "Spicy green chutney with melted cheese", image: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=500" },
-                    { name: "Cheese Garlic Sandwich", price: 50, category: "Sandwiches", description: "Garlic infused butter with cheese", image: "https://images.unsplash.com/photo-1550547660-d9450f859349?w=500" },
-                    { name: "Cheese Corn Sandwich", price: 60, category: "Sandwiches", description: "Sweet corn kernels loaded with cheese", image: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=500" },
-                    { name: "Spanish Corn Sandwich", price: 60, category: "Sandwiches", description: "Spanish style spiced corn and cheese", image: "https://images.unsplash.com/photo-1550547660-d9450f859349?w=500" },
-                    { name: "Mexican Sandwich", price: 60, category: "Sandwiches", description: "Mexican flavored stuffing with cheese", image: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=500" },
-                    { name: "Special Paneer Sandwich", price: 60, category: "Sandwiches", description: "Chef special paneer chunks with herbs", image: "https://images.unsplash.com/photo-1550547660-d9450f859349?w=500" },
-                    { name: "Paneer Peri Peri Sandwich", price: 70, category: "Sandwiches", description: "Spicy peri peri paneer filling", image: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=500" },
-                    { name: "Tandoori Paneer Sandwich", price: 70, category: "Sandwiches", description: "Smoky tandoori marinated paneer", image: "https://images.unsplash.com/photo-1550547660-d9450f859349?w=500" },
-                    { name: "Paneer Makhani Sandwich", price: 70, category: "Sandwiches", description: "Rich makhani gravy with paneer", image: "https://images.unsplash.com/photo-1550547660-d9450f859349?w=500" },
-                    { name: "Cheese Bust Sandwich", price: 80, category: "Sandwiches", description: "Extra overloaded melted cheese sandwich", image: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=500" },
-
-                    // Burgers
-                    { name: "Veg Burger", price: 50, category: "Burgers", description: "Crispy vegetable patty with lettuce and mayo", image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500" },
-                    { name: "Potato Patty Burger", price: 60, category: "Burgers", description: "Spiced Aloo tikki burger", image: "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?w=500" },
-                    { name: "Cheese Corn Burger", price: 60, category: "Burgers", description: "Corn patty topped with liquid cheese", image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500" },
-                    { name: "Paneer Patty Burger", price: 80, category: "Burgers", description: "Crispy paneer steak burger", image: "https://images.unsplash.com/photo-1550547660-d9450f859349?w=500" },
-
-                    // French Fries
-                    { name: "Salted Fries", price: 40, category: "French Fries", description: "Classic salted crispy fries", image: "https://images.unsplash.com/photo-1576107232684-1279f390859f?w=500" },
-                    { name: "Peri Peri Fries", price: 50, category: "French Fries", description: "Fries tossed in spicy peri peri seasoning", image: "https://images.unsplash.com/photo-1630384060421-cb20d0e0649d?w=500" },
-                    { name: "Cheese Fries", price: 50, category: "French Fries", description: "Fries drenched in warm melted cheese", image: "https://images.unsplash.com/photo-1576107232684-1279f390859f?w=500" },
-
-                    // Pizza
-                    { name: "Capsicum Pizza", price: 70, category: "Pizzas", description: "Loaded with fresh green capsicum and cheese", image: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500" },
-                    { name: "Onion Pizza", price: 70, category: "Pizzas", description: "Crunchy onion rings on mozzarella base", image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500" },
-                    { name: "Tomato Pizza", price: 70, category: "Pizzas", description: "Juicy tomato slices and herbs", image: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500" },
-                    { name: "Margherita Pizza", price: 80, category: "Pizzas", description: "Classic cheese and basil pizza", image: "https://images.unsplash.com/photo-1604382355076-af4b0eb60143?w=500" },
-                    { name: "Cheese Corn Pizza", price: 80, category: "Pizzas", description: "Sweet corn and extra cheese", image: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500" },
-                    { name: "Mexican Pizza", price: 90, category: "Pizzas", description: "Spicy Mexican herbs, jalapenos and cheese", image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500" },
-                    { name: "Mushroom Pizza", price: 100, category: "Pizzas", description: "Sautéed mushrooms with garlic spread", image: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500" },
-                    { name: "Farmhouse Pizza", price: 100, category: "Pizzas", description: "Assorted garden fresh veggies", image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500" },
-                    { name: "Paneer Pizza", price: 100, category: "Pizzas", description: "Tandoori paneer cubes on crust", image: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500" },
-                    { name: "Peppy Paneer Pizza", price: 100, category: "Pizzas", description: "Spicy paneer with capsicum and paprika", image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500" },
-                    { name: "Paneer Makhani Pizza", price: 100, category: "Pizzas", description: "Makhani sauce base with paneer", image: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500" },
-                    { name: "Veg Loaded Pizza", price: 120, category: "Pizzas", description: "Overloaded with all vegetables and double cheese", image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500" },
-
-                    // Pasta
-                    { name: "White Sauce Pasta", price: 70, category: "Pasta", description: "Creamy cheesy white sauce penne pasta", image: "https://images.unsplash.com/photo-1621996346565-e3d5d6281298?w=500" },
-
-                    // Maggi
-                    { name: "Plain Maggi", price: 40, category: "Maggi", description: "Classic hot soupy maggi noodles", image: "https://images.unsplash.com/photo-1612927601601-66384047381a?w=500" },
-                    { name: "Peri Peri Maggi", price: 50, category: "Maggi", description: "Maggi tossed with peri peri spice", image: "https://images.unsplash.com/photo-1585032226651-759b368d7246?w=500" },
-                    { name: "Cheese Maggi", price: 50, category: "Maggi", description: "Maggi loaded with melted cheese slice", image: "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=500" },
-                    { name: "Mix Veg Maggi", price: 60, category: "Maggi", description: "Maggi cooked with fresh chopped veggies", image: "https://images.unsplash.com/photo-1612927601601-66384047381a?w=500" },
-                    { name: "Cheese Corn Maggi", price: 60, category: "Maggi", description: "Maggi with sweet corn and cheese", image: "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=500" },
-                    { name: "Veg Cheese Maggi", price: 70, category: "Maggi", description: "Vegetable maggi topped with cheese", image: "https://images.unsplash.com/photo-1585032226651-759b368d7246?w=500" },
-                    { name: "Paneer Maggi", price: 80, category: "Maggi", description: "Maggi tossed with soft paneer cubes", image: "https://images.unsplash.com/photo-1612927601601-66384047381a?w=500" },
-
-                    // Shakes
-                    { name: "Cold Coffee", price: 50, category: "Shakes", description: "Chilled frothy blended coffee", image: "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?w=500" },
-                    { name: "Chocolate Shake", price: 60, category: "Shakes", description: "Thick creamy chocolate milkshake", image: "https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=500" },
-                    { name: "Hazelnut Shake", price: 70, category: "Shakes", description: "Rich hazelnut flavored shake", image: "https://images.unsplash.com/photo-1541658016709-82535e94bc69?w=500" },
-                    { name: "Mango Shake", price: 70, category: "Shakes", description: "Sweet pulpy mango shake", image: "https://images.unsplash.com/photo-1553530666-ba11a7da3888?w=500" },
-                    { name: "Strawberry Shake", price: 70, category: "Shakes", description: "Pink strawberry milkshake", image: "https://images.unsplash.com/photo-1579954115545-a95591f28bfc?w=500" },
-                    { name: "Butterscotch Shake", price: 70, category: "Shakes", description: "Crunchy butterscotch flavored shake", image: "https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=500" },
-                    { name: "Paan Shake", price: 70, category: "Shakes", description: "Refreshing traditional paan flavored shake", image: "https://images.unsplash.com/photo-1541658016709-82535e94bc69?w=500" },
-                    { name: "Oreo Shake", price: 70, category: "Shakes", description: "Blended oreo cookies with thick milk", image: "https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=500" },
-                    { name: "Kit kat Shake", price: 80, category: "Shakes", description: "Kitkat chocolate blended thick shake", image: "https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=500" },
-                    { name: "Brownie Shake", price: 80, category: "Shakes", description: "Chocolate brownie blended shake", image: "https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=500" },
-
-                    // Mocktails
-                    { name: "Classic Mojito", price: 50, category: "Mocktails", description: "Mint, lime and soda refresher", image: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500" },
-                    { name: "Raspberry Mojito", price: 60, category: "Mocktails", description: "Tangy raspberry mint mocktail", image: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=500" },
-                    { name: "Blue Lagoon", price: 60, category: "Mocktails", description: "Blue curacao with citrus soda", image: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500" },
-                    { name: "Watermelon Mocktail", price: 60, category: "Mocktails", description: "Fresh watermelon crush cooler", image: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=500" },
-                    { name: "Green Apple Mocktail", price: 60, category: "Mocktails", description: "Crisp green apple flavored cooler", image: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500" }
-                ];
-
-                renderScannedItemsReview();
-
-                document.getElementById('scannerLoadingView').classList.add('hidden');
-                document.getElementById('scannerResultView').classList.remove('hidden');
-
-            } catch (error) {
-                console.error("Scan Error:", error);
-                alert("Error processing menu image.");
-                resetScanner();
-            }
-        }
-
-        function renderScannedItemsReview() {
-            const container = document.getElementById('extractedItemsListContainer');
+        function initMatrixRows() {
+            const container = document.getElementById('matrixRowsContainer');
             container.innerHTML = '';
-            document.getElementById('extractedCountBadge').textContent = scannedExtractedItems.length + ' Items Found';
 
-            scannedExtractedItems.forEach((item, index) => {
-                const div = document.createElement('div');
-                div.className = "bg-gray-50 p-4 rounded-2xl border border-gray-200 space-y-3 flex items-center space-x-4";
-                div.innerHTML = `
-                    <img src="${item.image}" class="w-12 h-12 rounded-xl object-cover shadow-sm flex-shrink-0">
-                    <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 flex-grow">
-                        <div class="sm:col-span-2">
-                            <label class="block text-[10px] font-bold text-gray-400 uppercase">Product Name</label>
-                            <input type="text" value="${item.name}" id="scannedName_${index}" class="w-full bg-white border border-gray-200 rounded-xl px-3 py-1.5 text-sm font-bold text-gray-900 focus:outline-none focus:border-purple-500">
-                        </div>
-                        <div>
-                            <label class="block text-[10px] font-bold text-gray-400 uppercase">Category</label>
-                            <input type="text" value="${item.category}" id="scannedCat_${index}" class="w-full bg-white border border-gray-200 rounded-xl px-3 py-1.5 text-sm text-gray-700 focus:outline-none focus:border-purple-500">
-                        </div>
-                        <div>
-                            <label class="block text-[10px] font-bold text-gray-400 uppercase">Price (Rs.)</label>
-                            <input type="number" value="${item.price}" id="scannedPrice_${index}" class="w-full bg-white border border-gray-200 rounded-xl px-3 py-1.5 text-sm font-bold text-brand-600 focus:outline-none focus:border-purple-500">
-                        </div>
-                    </div>
-                `;
-                container.appendChild(div);
+            const menuData = [
+                // Pizzas
+                { name: "Tikka Pizza (Small)", cat: "Pizzas", price: 500, img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500" },
+                { name: "Tikka Pizza (Medium)", cat: "Pizzas", price: 850, img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500" },
+                { name: "Tikka Pizza (Large)", cat: "Pizzas", price: 1300, img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500" },
+                { name: "Fajita Pizza (Medium)", cat: "Pizzas", price: 850, img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500" },
+                { name: "Sicilian Fajita Pizza (Large)", cat: "Pizzas", price: 1300, img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500" },
+                { name: "Hot n Spicy Pizza (Large)", cat: "Pizzas", price: 1300, img: "https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?w=500" },
+                { name: "Malai Boti Pizza (Large)", cat: "Pizzas", price: 1300, img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500" },
+                { name: "Royal Lava Pizza", cat: "Pizzas", price: 650, img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500" },
+                { name: "Royal Lover Special Pizza (Large)", cat: "Pizzas", price: 1400, img: "https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?w=500" },
+                { name: "Royal Supremo Pizza (Large)", cat: "Pizzas", price: 1400, img: "https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?w=500" },
+                { name: "Royal Crown Pizza (Large)", cat: "Pizzas", price: 1500, img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500" },
+                { name: "Matka Pizza", cat: "Pizzas", price: 900, img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500" },
+
+                // Broasts
+                { name: "Crispy Broast", cat: "Broasts", price: 550, img: "https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=500" },
+                { name: "Garlic Broast", cat: "Broasts", price: 600, img: "https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=500" },
+
+                // Burgers
+                { name: "Zinger Burger", cat: "Burgers", price: 450, img: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500" },
+                { name: "Zinger Cheese Burger", cat: "Burgers", price: 500, img: "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?w=500" },
+                { name: "Chicken Patti Burger", cat: "Burgers", price: 400, img: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500" },
+                { name: "Pizza Burger", cat: "Burgers", price: 600, img: "https://images.unsplash.com/photo-1550547660-d9450f859349?w=500" },
+                
+                // Beef Burger
+                { name: "Beef Burger", cat: "Beef Burger", price: 450, img: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500" },
+                { name: "Beef Cheese Burger", cat: "Beef Burger", price: 500, img: "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?w=500" },
+                { name: "Royal Special Beef Burger Loaded", cat: "Beef Burger", price: 600, img: "https://images.unsplash.com/photo-1550547660-d9450f859349?w=500" },
+
+                // Chinese
+                { name: "Chicken Shashlik (With Rice)", cat: "Chinese", price: 600, img: "https://images.unsplash.com/photo-1512058564366-18510be2db19?w=500" },
+                { name: "Chicken Manchurian With Rice", cat: "Chinese", price: 600, img: "https://images.unsplash.com/photo-1512058564366-18510be2db19?w=500" },
+                { name: "Chicken Chowmein", cat: "Chinese", price: 600, img: "https://images.unsplash.com/photo-1585032226651-759b368d7246?w=500" },
+                { name: "Vegetable Chowmein", cat: "Chinese", price: 400, img: "https://images.unsplash.com/photo-1585032226651-759b368d7246?w=500" },
+                { name: "Singaporian Rice", cat: "Chinese", price: 600, img: "https://images.unsplash.com/photo-1512058564366-18510be2db19?w=500" },
+                { name: "Chicken Fried Rice", cat: "Chinese", price: 500, img: "https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=500" },
+
+                // Pasta
+                { name: "Macroni Pasta", cat: "Pasta", price: 700, img: "https://images.unsplash.com/photo-1621996346565-e3d5d6281298?w=500" },
+                { name: "Lazania Pasta", cat: "Pasta", price: 700, img: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=500" },
+
+                // Biryani & Nehari
+                { name: "Chicken Biryani", cat: "Biryani", price: 200, img: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=500" },
+                { name: "Chicken Biryani Box", cat: "Biryani", price: 250, img: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=500" },
+                { name: "Special Beef Nehari", cat: "Nehari", price: 450, img: "https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=500" },
+
+                // Shakes (Sab ki alag aur unique images!)
+                { name: "Banana Shake", cat: "Shakes", price: 250, img: "https://images.unsplash.com/photo-1553530666-ba11a7da3888?w=500" },
+                { name: "Mango Shake", cat: "Shakes", price: 300, img: "https://images.unsplash.com/photo-1623065422902-30a2d299bbe4?w=500" },
+                { name: "Strawberry Shake", cat: "Shakes", price: 300, img: "https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=500" },
+                { name: "Oreo Shake", cat: "Shakes", price: 350, img: "https://images.unsplash.com/photo-1577805947697-89e18249d767?w=500" },
+                { name: "Chocolate Shake", cat: "Shakes", price: 350, img: "https://images.unsplash.com/photo-1541658016709-82535e94bc69?w=500" },
+                { name: "Cold Coffee Shake", cat: "Shakes", price: 300, img: "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?w=500" },
+
+                // Shawarma
+                { name: "Regular Shawarma", cat: "Shawarma", price: 170, img: "https://images.unsplash.com/photo-1529006557810-274b9b2fc783?w=500" },
+                { name: "Arabic Shawarma", cat: "Shawarma", price: 200, img: "https://images.unsplash.com/photo-1529006557810-274b9b2fc783?w=500" },
+                { name: "Zinger Shawarma", cat: "Shawarma", price: 300, img: "https://images.unsplash.com/photo-1529006557810-274b9b2fc783?w=500" },
+                { name: "Royal Platter Shawarma", cat: "Shawarma", price: 700, img: "https://images.unsplash.com/photo-1529006557810-274b9b2fc783?w=500" },
+
+                // Fast Food & Gol Gappay
+                { name: "Gol Gappy", cat: "Fast Food", price: 200, img: "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=500" },
+                { name: "Loaded Gol Gappa", cat: "Fast Food", price: 250, img: "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=500" },
+                { name: "Channa Chaat", cat: "Fast Food", price: 150, img: "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=500" },
+                { name: "Dahi Barry", cat: "Fast Food", price: 180, img: "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=500" },
+
+                // Sandwiches & Fries
+                { name: "Classic Club Sandwich", cat: "Sandwiches", price: 400, img: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=500" },
+                { name: "BBQ Club Sandwich", cat: "Sandwiches", price: 450, img: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=500" },
+                { name: "Plain Fries", cat: "French Fries", price: 200, img: "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=500" },
+                { name: "Masala Fries", cat: "French Fries", price: 200, img: "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=500" },
+                { name: "Chicken & Pizza Fries", cat: "French Fries", price: 700, img: "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=500" }
+            ];
+
+            menuData.forEach(item => {
+                appendMatrixRowPreloaded(item.name, item.cat, item.price, item.img);
             });
+            updateMatrixCount();
         }
 
-        function saveScannedProductsToFirebase() {
-            if (!db || scannedExtractedItems.length === 0) {
-                alert("No items to save!");
+        function appendMatrixRowPreloaded(name, category, price, image) {
+            const container = document.getElementById('matrixRowsContainer');
+            const div = document.createElement('div');
+            div.className = "matrix-row bg-gray-50 p-3.5 rounded-2xl border border-gray-200 grid grid-cols-1 sm:grid-cols-12 gap-3 items-center relative group";
+            div.innerHTML = `
+                <div class="sm:col-span-4">
+                    <label class="block text-[10px] font-bold text-gray-400 uppercase">Item Name</label>
+                    <input type="text" value="${name}" class="m-name w-full bg-white border border-gray-200 rounded-xl px-3 py-2 text-sm font-bold text-gray-900 focus:outline-none focus:border-emerald-500">
+                </div>
+                <div class="sm:col-span-3">
+                    <label class="block text-[10px] font-bold text-gray-400 uppercase">Category</label>
+                    <select class="m-cat w-full bg-white border border-gray-200 rounded-xl px-3 py-2 text-sm text-gray-700 focus:outline-none focus:border-emerald-500">
+                        <option value="Pizzas" ${category==='Pizzas'?'selected':''}>Pizzas</option>
+                        <option value="Broasts" ${category==='Broasts'?'selected':''}>Broasts</option>
+                        <option value="Burgers" ${category==='Burgers'?'selected':''}>Burgers</option>
+                        <option value="Beef Burger" ${category==='Beef Burger'?'selected':''}>Beef Burger</option>
+                        <option value="Chinese" ${category==='Chinese'?'selected':''}>Chinese</option>
+                        <option value="Pasta" ${category==='Pasta'?'selected':''}>Pasta</option>
+                        <option value="Biryani" ${category==='Biryani'?'selected':''}>Biryani</option>
+                        <option value="Nehari" ${category==='Nehari'?'selected':''}>Nehari</option>
+                        <option value="Shakes" ${category==='Shakes'?'selected':''}>Shakes</option>
+                        <option value="Shawarma" ${category==='Shawarma'?'selected':''}>Shawarma</option>
+                        <option value="Sandwiches" ${category==='Sandwiches'?'selected':''}>Sandwiches</option>
+                        <option value="French Fries" ${category==='French Fries'?'selected':''}>French Fries</option>
+                        <option value="Fast Food" ${category==='Fast Food'?'selected':''}>Fast Food</option>
+                    </select>
+                </div>
+                <div class="sm:col-span-2">
+                    <label class="block text-[10px] font-bold text-gray-400 uppercase">Price (Rs.)</label>
+                    <input type="number" value="${price}" class="m-price w-full bg-white border border-gray-200 rounded-xl px-3 py-2 text-sm font-bold text-emerald-600 focus:outline-none focus:border-emerald-500">
+                </div>
+                <div class="sm:col-span-2">
+                    <label class="block text-[10px] font-bold text-gray-400 uppercase">Image URL</label>
+                    <input type="url" value="${image}" class="m-img w-full bg-white border border-gray-200 rounded-xl px-3 py-2 text-xs text-gray-600 focus:outline-none focus:border-emerald-500">
+                </div>
+                <div class="sm:col-span-1 flex items-end justify-center pt-4 sm:pt-0">
+                    <button type="button" onclick="this.closest('.matrix-row').remove(); updateMatrixCount();" class="w-9 h-9 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-xl transition flex items-center justify-center" title="Remove Row">
+                        <i class="fa-solid fa-trash text-xs"></i>
+                    </button>
+                </div>
+            `;
+            container.appendChild(div);
+        }
+
+        function updateMatrixCount() {
+            const count = document.querySelectorAll('.matrix-row').length;
+            document.getElementById('matrixCountBadge').textContent = count + ' Rows';
+        }
+
+        function saveMatrixProductsToFirebase() {
+            if (!db) return;
+
+            const rowElements = document.querySelectorAll('.matrix-row');
+            const productsToSave = [];
+
+            rowElements.forEach(row => {
+                const name = row.querySelector('.m-name').value.trim();
+                const category = row.querySelector('.m-cat').value;
+                const price = parseFloat(row.querySelector('.m-price').value);
+                const image = row.querySelector('.m-img').value.trim() || "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500";
+
+                if (name && !isNaN(price) && price > 0) {
+                    productsToSave.push({
+                        name,
+                        category,
+                        price,
+                        image,
+                        description: "Official Zipsbite Menu Item",
+                        rating: 4.8,
+                        reviews: Math.floor(50 + Math.random() * 50)
+                    });
+                }
+            });
+
+            if (productsToSave.length === 0) {
+                alert("Please fill at least one valid product with name and price!");
                 return;
             }
-
-            scannedExtractedItems.forEach((item, index) => {
-                const nameInput = document.getElementById(`scannedName_${index}`);
-                const catInput = document.getElementById(`scannedCat_${index}`);
-                const priceInput = document.getElementById(`scannedPrice_${index}`);
-                if (nameInput) item.name = nameInput.value.trim();
-                if (catInput) item.category = catInput.value.trim();
-                if (priceInput) item.price = parseFloat(priceInput.value) || 0;
-                item.rating = 4.8;
-                item.reviews = Math.floor(50 + Math.random() * 50);
-            });
 
             let savedCount = 0;
-            scannedExtractedItems.forEach(item => {
-                db.ref('products').push(item, (error) => {
+            productsToSave.forEach(prod => {
+                db.ref('products').push(prod, (error) => {
                     if (!error) {
                         savedCount++;
-                        if (savedCount === scannedExtractedItems.length) {
-                            alert(`Successfully added all ${savedCount} products with accurate images to your Firebase store!`);
-                            closeAiScannerModal();
+                        if (savedCount === productsToSave.length) {
+                            alert(`Successfully saved all ${savedCount} products to your store inventory!`);
+                            closeVisualMenuModal();
                             switchTab('products');
                         }
                     }
