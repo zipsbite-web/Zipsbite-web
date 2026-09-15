@@ -63,7 +63,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             
             <!-- LIVE ACTIVE ORDER TRACKER BANNER (Shows automatically when order placed) -->
-            <div id="activeOrderTracker" class="hidden bg-gradient-to-r from-gray-900 to-gray-800 text-white rounded-3xl p-6 mb-8 shadow-xl border-2 border-brand-500 relative overflow-hidden">
+            <div id="activeOrderTracker" class="hidden scroll-mt-28 bg-gradient-to-r from-gray-900 to-gray-800 text-white rounded-3xl p-6 mb-8 shadow-xl border-2 border-brand-500 relative overflow-hidden">
                 <div class="absolute right-0 bottom-0 opacity-10 translate-x-6 translate-y-6 pointer-events-none">
                     <i class="fa-solid fa-motorcycle text-[180px]"></i>
                 </div>
@@ -227,11 +227,56 @@
         let currentModalStep = 'cart';
         let capturedLat = null;
         let capturedLng = null;
+        let lastKnownStatus = null;
 
         document.addEventListener('DOMContentLoaded', () => {
             initFirebaseListeners();
             updateCartBadge();
         });
+
+        // Long & Smooth Multi-tone Sound Generator (Web Audio API)
+        function playNotificationSound() {
+            try {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                if (!AudioContext) return;
+                const ctx = new AudioContext();
+
+                // Tone 1: Soft warm melody note
+                const osc1 = ctx.createOscillator();
+                const gain1 = ctx.createGain();
+                osc1.type = 'sine';
+                osc1.frequency.setValueAtTime(523.25, ctx.currentTime); // C5
+
+                // Tone 2: Gentle higher chime note
+                const osc2 = ctx.createOscillator();
+                const gain2 = ctx.createGain();
+                osc2.type = 'sine';
+                osc2.frequency.setValueAtTime(659.25, ctx.currentTime + 0.12); // E5
+
+                // Smooth volume envelopes for a nice 1.5s fade-out
+                gain1.gain.setValueAtTime(0, ctx.currentTime);
+                gain1.gain.linearRampToValueAtTime(0.2, ctx.currentTime + 0.05);
+                gain1.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1.2);
+
+                gain2.gain.setValueAtTime(0, ctx.currentTime + 0.12);
+                gain2.gain.linearRampToValueAtTime(0.25, ctx.currentTime + 0.17);
+                gain2.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1.5);
+
+                osc1.connect(gain1);
+                gain1.connect(ctx.destination);
+
+                osc2.connect(gain2);
+                gain2.connect(ctx.destination);
+
+                osc1.start(ctx.currentTime);
+                osc1.stop(ctx.currentTime + 1.2);
+
+                osc2.start(ctx.currentTime + 0.12);
+                osc2.stop(ctx.currentTime + 1.5);
+            } catch (err) {
+                console.log("Audio notification error:", err);
+            }
+        }
 
         function initFirebaseListeners() {
             if (!db) return;
@@ -268,6 +313,13 @@
                     document.getElementById('trackerStatus').textContent = order.status;
                     document.getElementById('trackerTime').textContent = order.deliveryTime || '30-40 mins';
 
+                    // Smooth Scroll & Play Long Sound when admin updates status
+                    if (lastKnownStatus && lastKnownStatus !== order.status) {
+                        playNotificationSound();
+                        tracker.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                    lastKnownStatus = order.status;
+
                     // Update Badge Color based on status
                     const statusBadge = document.getElementById('trackerStatus');
                     if (order.status === 'Pending') {
@@ -281,6 +333,7 @@
                     tracker.classList.add('hidden');
                     if (order && (order.status === 'Delivered' || order.status === 'Cancelled')) {
                         localStorage.removeItem('zipsbite_active_order_key');
+                        lastKnownStatus = null;
                     }
                 }
             });
@@ -540,6 +593,10 @@
 
         function closeSuccessModal() {
             document.getElementById('successModal').classList.add('hidden');
+            const tracker = document.getElementById('activeOrderTracker');
+            if (tracker) {
+                tracker.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
         }
     </script>
 </body>
