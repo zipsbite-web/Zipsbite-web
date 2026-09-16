@@ -100,7 +100,7 @@
             <!-- HERO BANNER -->
             <div class="relative bg-gradient-to-br from-gray-900 via-gray-800 to-brand-700 rounded-3xl p-6 sm:p-10 mb-8 overflow-hidden shadow-2xl">
                 <div class="relative z-10 max-w-xl">
-                    <span class="inline-block bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-xs font-bold px-3.5 py-1 rounded-full mb-3 uppercase tracking-wider">🍛 Sasta & Tazah Hotel Ka Khana</span>
+                    <span class="inline-block bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-xs font-bold px-3.5 py-1 rounded-full mb-3 uppercase tracking-wider"> Sasta & Tazah Hotel Ka Khana</span>
                     <h1 class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight mb-3 leading-tight">Kam Price Me <span class="text-brand-500">Khas Hotel Food!</span></h1>
                     <p class="text-gray-300 text-xs sm:text-sm">Ghar aur Dukan walon ke liye rozana ka sasta hotel menu (Daal, Qorma, Biryani, Roti) ab Online order karein.</p>
                 </div>
@@ -114,7 +114,7 @@
                     <p class="text-xs text-emerald-100 max-w-lg">Dukan aur Ghar ke liye kam qeemat me fresh hotel khana directly order karein.</p>
                 </div>
                 <button onclick="filterCategory('Hotel Meals')" class="bg-white text-emerald-900 hover:bg-emerald-50 font-bold px-6 py-3 rounded-2xl text-xs shadow-md transition whitespace-nowrap">
-                    Dekhein Hotel Deals 🍲
+                    Dekhein Hotel Deals
                 </button>
             </div>
 
@@ -225,7 +225,7 @@
                 <div class="flex items-center justify-between pt-2 border-t border-gray-100">
                     <div class="flex items-center space-x-2 overflow-x-auto no-scrollbar py-1" id="categoryFilters">
                         <button onclick="filterCategory('All')" class="category-btn active px-4 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition bg-brand-600 text-white shadow-md">All Items</button>
-                        <button onclick="filterCategory('Hotel Meals')" class="category-btn px-4 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition bg-emerald-600 text-white hover:bg-emerald-700 shadow-sm">🍲 Hotel Meals (Low Price)</button>
+                        <button onclick="filterCategory('Hotel Meals')" class="category-btn px-4 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition bg-emerald-600 text-white hover:bg-emerald-700 shadow-sm">Hotel Meals (Low Price)</button>
                         <button onclick="filterCategory('Biryani')" class="category-btn px-4 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition bg-gray-100 text-gray-600 hover:bg-gray-200">Biryani</button>
                         <button onclick="filterCategory('Nehari')" class="category-btn px-4 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition bg-gray-100 text-gray-600 hover:bg-gray-200">Nehari</button>
                         <button onclick="filterCategory('Shakes')" class="category-btn px-4 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition bg-gray-100 text-gray-600 hover:bg-gray-200">Shakes</button>
@@ -404,13 +404,40 @@
             if (savedOrderKey) listenToActiveOrder(savedOrderKey);
         }
 
+        function listenToActiveOrder(orderKey) {
+            if (!db || !orderKey) return;
+            db.ref('orders/' + orderKey).on('value', (snapshot) => {
+                const order = snapshot.val();
+                const tracker = document.getElementById('activeOrderTracker');
+                if (order && tracker) {
+                    tracker.classList.remove('hidden');
+                    document.getElementById('trackerOrderId').textContent = '#' + (order.orderId || 'ZB-0000');
+                    
+                    const statusElem = document.getElementById('trackerStatus');
+                    statusElem.textContent = order.status || 'Pending';
+                    
+                    if (order.status === 'Preparing') {
+                        statusElem.className = "inline-block mt-0.5 px-3 py-1 rounded-full text-xs font-bold bg-blue-500 text-white";
+                    } else if (order.status === 'Out for Delivery') {
+                        statusElem.className = "inline-block mt-0.5 px-3 py-1 rounded-full text-xs font-bold bg-purple-500 text-white";
+                    } else if (order.status === 'Delivered') {
+                        statusElem.className = "inline-block mt-0.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-500 text-white";
+                    } else if (order.status === 'Cancelled') {
+                        statusElem.className = "inline-block mt-0.5 px-3 py-1 rounded-full text-xs font-bold bg-rose-600 text-white";
+                    } else {
+                        statusElem.className = "inline-block mt-0.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-500 text-white";
+                    }
+
+                    document.getElementById('trackerTime').textContent = order.deliveryTime || '30-40 mins';
+                }
+            });
+        }
+
         function seedDefaultProducts() {
             const defaults = [
-                // SASTA HOTEL KHANA (BUDGET MEALS)
                 { name: "Special Daal Fry + 2 Roti", category: "Hotel Meals", price: 180, rating: 4.8, image: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=600&q=80", description: "Taza deshi ghee tarka daal with 2 hot tandoori rotis. Daily budget lunch." },
                 { name: "Chicken Qorma (Half Plate)", category: "Hotel Meals", price: 320, rating: 4.9, image: "https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&w=600&q=80", description: "Traditional hotel style thick chicken qorma gravied with spices." },
                 { name: "Aloo Palak Plate + Salad", category: "Hotel Meals", price: 150, rating: 4.7, image: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=600&q=80", description: "Fresh daily cooked veg meal with salad." },
-                // DESI & FAST FOOD
                 { name: "Special Beef Nalli Nehari", category: "Nehari", price: 950, rating: 4.9, image: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=600&q=80", description: "Slow cooked rich beef nehari with nalli and ginger garnish." },
                 { name: "Chicken Dum Biryani (Full)", category: "Biryani", price: 480, rating: 5.0, image: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=600&q=80", description: "Authentic aromatic basmati rice dum biryani with tender chicken." },
                 { name: "Chocolate Fudge Shake", category: "Shakes", price: 380, rating: 4.8, image: "https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=600&q=80", description: "Rich chocolate icecream blended with fudge syrup." },
@@ -681,7 +708,7 @@
                     <div class="bg-gray-50 p-4 rounded-2xl border border-gray-200 text-xs space-y-2">
                         <h4 class="font-bold text-gray-900 border-b pb-2 flex justify-between">
                             <span>Order Summary</span>
-                            <span class="text-brand-600 uppercase font-extrabold">[${selectedOrderType === 'home' ? '🏠 Ghar Delivery' : '🏬 Dukan Order'}]</span>
+                            <span class="text-brand-600 uppercase font-extrabold">[${selectedOrderType === 'home' ? 'Ghar Delivery' : 'Dukan Order'}]</span>
                         </h4>
                         <div class="flex justify-between text-gray-600"><span>Name:</span><span class="font-semibold text-gray-900">${name}</span></div>
                         <div class="flex justify-between text-gray-600"><span>Phone:</span><span class="font-semibold text-gray-900">${phone}</span></div>
@@ -727,6 +754,7 @@
             if (db) {
                 const newOrderRef = db.ref('orders').push(orderData);
                 localStorage.setItem('zipsbite_active_order_key', newOrderRef.key);
+                listenToActiveOrder(newOrderRef.key);
             }
 
             document.getElementById('receiptOrderId').textContent = '#' + orderId;
@@ -740,7 +768,11 @@
             toggleCartModal(false);
         }
 
-        function closeSuccessModal() { document.getElementById('successModal').classList.add('hidden'); }
+        function closeSuccessModal() { 
+            document.getElementById('successModal').classList.add('hidden');
+            const tracker = document.getElementById('activeOrderTracker');
+            if (tracker) tracker.scrollIntoView({ behavior: 'smooth' });
+        }
     </script>
 </body>
 </html>
