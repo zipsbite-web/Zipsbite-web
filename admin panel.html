@@ -181,7 +181,7 @@
                     </div>
                     <div>
                         <h3 class="text-base sm:text-lg font-bold text-gray-900">Visual Menu Quick-Entry</h3>
-                        <p class="text-[11px] sm:text-xs text-gray-500 hidden sm:block">Menu items pre-loaded with unique Shake images, Nehari, Biryani & fast food</p>
+                        <p class="text-[11px] sm:text-xs text-gray-500 hidden sm:block">Pre-loaded with Fast Food, Desi Food (Karahi, BBQ, Naan) & Shakes</p>
                     </div>
                 </div>
                 <button onclick="closeVisualMenuModal()" class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-600"><i class="fa-solid fa-xmark"></i></button>
@@ -190,7 +190,7 @@
             <!-- Modal Split Body -->
             <div class="flex-grow grid grid-cols-1 lg:grid-cols-12 overflow-hidden">
                 
-                <!-- LEFT SIDE: MENU IMAGE VIEWER (Hidden on mobile by default or scrollable) -->
+                <!-- LEFT SIDE: MENU IMAGE VIEWER -->
                 <div class="lg:col-span-5 bg-gray-900 p-4 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-gray-800 overflow-y-auto max-h-[30vh] lg:max-h-full">
                     <div class="space-y-3">
                         <div class="flex justify-between items-center text-white px-1">
@@ -208,7 +208,7 @@
                     </div>
 
                     <div class="mt-3 bg-gray-800/60 p-3 rounded-xl border border-gray-700/60 text-[11px] sm:text-xs text-gray-300 hidden sm:block">
-                        💡 <strong class="text-white">Notice:</strong> Shakes ki har item (Banana, Mango, Strawberry, Oreo waghaira) ki apni alag aur original image set ki gayi hai!
+                        💡 <strong class="text-white">Notice:</strong> Desi Food (Karahi, Handi, BBQ, Naan) ke saaray items add kar diye gaye hain!
                     </div>
                 </div>
 
@@ -216,7 +216,7 @@
                 <div class="lg:col-span-7 bg-white p-4 sm:p-6 flex flex-col justify-between overflow-hidden flex-grow">
                     <div class="flex justify-between items-center mb-3 sm:mb-4 flex-shrink-0">
                         <h4 class="font-bold text-gray-900 text-xs sm:text-sm uppercase tracking-wider">Matrix Rows (<span id="matrixCountBadge">0 Rows</span>)</h4>
-                        <button onclick="appendMatrixRowPreloaded('', 'Pizzas', 0, 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500'); updateMatrixCount();" class="bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold px-3 py-1.5 rounded-xl text-xs transition flex items-center space-x-1">
+                        <button onclick="appendMatrixRowPreloaded('', 'Desi Food', 0, 'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=500'); updateMatrixCount();" class="bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold px-3 py-1.5 rounded-xl text-xs transition flex items-center space-x-1">
                             <i class="fa-solid fa-plus text-brand-500"></i><span>Add Row</span>
                         </button>
                     </div>
@@ -252,12 +252,15 @@
             <form id="addProductForm" onsubmit="handleAddNewProduct(event)" class="space-y-4">
                 <div>
                     <label class="block text-xs font-bold text-gray-600 uppercase mb-1">Product Name *</label>
-                    <input type="text" id="newProdName" required placeholder="e.g. Ultimate Cheeseburger" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-brand-500">
+                    <input type="text" id="newProdName" required placeholder="e.g. Chicken Chicken Karahi" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-brand-500">
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                         <label class="block text-xs font-bold text-gray-600 uppercase mb-1">Category *</label>
                         <select id="newProdCategory" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-brand-500">
+                            <option value="Desi Food">Desi Food / Karahi</option>
+                            <option value="BBQ">BBQ</option>
+                            <option value="Roti & Naan">Roti & Naan</option>
                             <option value="Pizzas">Pizzas</option>
                             <option value="Broasts">Broasts</option>
                             <option value="Burgers">Burgers</option>
@@ -275,7 +278,7 @@
                     </div>
                     <div>
                         <label class="block text-xs font-bold text-gray-600 uppercase mb-1">Price (Rs.) *</label>
-                        <input type="number" id="newProdPrice" required placeholder="850" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-brand-500">
+                        <input type="number" id="newProdPrice" required placeholder="1200" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-brand-500">
                     </div>
                 </div>
                 <div>
@@ -571,7 +574,7 @@
             }
         }
 
-        // ===== VISUAL MENU QUICK-ENTRY LOGIC (PRELOADED WITH UNIQUE SHAKE IMAGES) =====
+        // ===== VISUAL MENU QUICK-ENTRY LOGIC =====
         function openVisualMenuModal() {
             document.getElementById('visualMenuModal').classList.remove('hidden');
             initMatrixRows();
@@ -597,78 +600,43 @@
             container.innerHTML = '';
 
             const menuData = [
-                // Pizzas
-                { name: "Tikka Pizza (Small)", cat: "Pizzas", price: 500, img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500" },
-                { name: "Tikka Pizza (Medium)", cat: "Pizzas", price: 850, img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500" },
-                { name: "Tikka Pizza (Large)", cat: "Pizzas", price: 1300, img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500" },
-                { name: "Fajita Pizza (Medium)", cat: "Pizzas", price: 850, img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500" },
-                { name: "Sicilian Fajita Pizza (Large)", cat: "Pizzas", price: 1300, img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500" },
-                { name: "Hot n Spicy Pizza (Large)", cat: "Pizzas", price: 1300, img: "https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?w=500" },
-                { name: "Malai Boti Pizza (Large)", cat: "Pizzas", price: 1300, img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500" },
-                { name: "Royal Lava Pizza", cat: "Pizzas", price: 650, img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500" },
-                { name: "Royal Lover Special Pizza (Large)", cat: "Pizzas", price: 1400, img: "https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?w=500" },
-                { name: "Royal Supremo Pizza (Large)", cat: "Pizzas", price: 1400, img: "https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?w=500" },
-                { name: "Royal Crown Pizza (Large)", cat: "Pizzas", price: 1500, img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500" },
-                { name: "Matka Pizza", cat: "Pizzas", price: 900, img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500" },
+                // Desi Food / Karahi / Handi
+                { name: "Chicken Karahi (Half)", cat: "Desi Food", price: 800, img: "https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=500" },
+                { name: "Chicken Karahi (Full)", cat: "Desi Food", price: 1500, img: "https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=500" },
+                { name: "Chicken White Karahi (Full)", cat: "Desi Food", price: 1600, img: "https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=500" },
+                { name: "Mutton Karahi (Half)", cat: "Desi Food", price: 1400, img: "https://images.unsplash.com/photo-1545247181-516773cae754?w=500" },
+                { name: "Chicken Boneless Handi", cat: "Desi Food", price: 1200, img: "https://images.unsplash.com/photo-1545247181-516773cae754?w=500" },
+                { name: "Daal Makhni / Fry", cat: "Desi Food", price: 300, img: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=500" },
 
-                // Broasts
-                { name: "Crispy Broast", cat: "Broasts", price: 550, img: "https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=500" },
-                { name: "Garlic Broast", cat: "Broasts", price: 600, img: "https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=500" },
+                // BBQ
+                { name: "Chicken Tikka (Leg/Chest)", cat: "BBQ", price: 350, img: "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=500" },
+                { name: "Chicken Reshmi Boti (Plate)", cat: "BBQ", price: 600, img: "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=500" },
+                { name: "Chicken Seekh Kebab (4 Pcs)", cat: "BBQ", price: 500, img: "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=500" },
+                { name: "Beef Seekh Kebab (4 Pcs)", cat: "BBQ", price: 600, img: "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=500" },
 
-                // Burgers
-                { name: "Zinger Burger", cat: "Burgers", price: 450, img: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500" },
-                { name: "Zinger Cheese Burger", cat: "Burgers", price: 500, img: "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?w=500" },
-                { name: "Chicken Patti Burger", cat: "Burgers", price: 400, img: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500" },
-                { name: "Pizza Burger", cat: "Burgers", price: 600, img: "https://images.unsplash.com/photo-1550547660-d9450f859349?w=500" },
-                
-                // Beef Burger
-                { name: "Beef Burger", cat: "Beef Burger", price: 450, img: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500" },
-                { name: "Beef Cheese Burger", cat: "Beef Burger", price: 500, img: "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?w=500" },
-                { name: "Royal Special Beef Burger Loaded", cat: "Beef Burger", price: 600, img: "https://images.unsplash.com/photo-1550547660-d9450f859349?w=500" },
-
-                // Chinese
-                { name: "Chicken Shashlik (With Rice)", cat: "Chinese", price: 600, img: "https://images.unsplash.com/photo-1512058564366-18510be2db19?w=500" },
-                { name: "Chicken Manchurian With Rice", cat: "Chinese", price: 600, img: "https://images.unsplash.com/photo-1512058564366-18510be2db19?w=500" },
-                { name: "Chicken Chowmein", cat: "Chinese", price: 600, img: "https://images.unsplash.com/photo-1585032226651-759b368d7246?w=500" },
-                { name: "Vegetable Chowmein", cat: "Chinese", price: 400, img: "https://images.unsplash.com/photo-1585032226651-759b368d7246?w=500" },
-                { name: "Singaporian Rice", cat: "Chinese", price: 600, img: "https://images.unsplash.com/photo-1512058564366-18510be2db19?w=500" },
-                { name: "Chicken Fried Rice", cat: "Chinese", price: 500, img: "https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=500" },
-
-                // Pasta
-                { name: "Macroni Pasta", cat: "Pasta", price: 700, img: "https://images.unsplash.com/photo-1621996346565-e3d5d6281298?w=500" },
-                { name: "Lazania Pasta", cat: "Pasta", price: 700, img: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=500" },
+                // Roti & Naan
+                { name: "Sada Roti", cat: "Roti & Naan", price: 25, img: "https://images.unsplash.com/photo-1626074353765-517a681e40be?w=500" },
+                { name: "Khamiri Roti", cat: "Roti & Naan", price: 40, img: "https://images.unsplash.com/photo-1626074353765-517a681e40be?w=500" },
+                { name: "Roghni Naan", cat: "Roti & Naan", price: 70, img: "https://images.unsplash.com/photo-1626074353765-517a681e40be?w=500" },
+                { name: "Garlic Naan", cat: "Roti & Naan", price: 90, img: "https://images.unsplash.com/photo-1626074353765-517a681e40be?w=500" },
 
                 // Biryani & Nehari
                 { name: "Chicken Biryani", cat: "Biryani", price: 200, img: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=500" },
                 { name: "Chicken Biryani Box", cat: "Biryani", price: 250, img: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=500" },
                 { name: "Special Beef Nehari", cat: "Nehari", price: 450, img: "https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=500" },
 
-                // Shakes (Sab ki alag aur unique images!)
-                { name: "Banana Shake", cat: "Shakes", price: 250, img: "https://images.unsplash.com/photo-1553530666-ba11a7da3888?w=500" },
+                // Pizzas
+                { name: "Tikka Pizza (Small)", cat: "Pizzas", price: 500, img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500" },
+                { name: "Tikka Pizza (Medium)", cat: "Pizzas", price: 850, img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500" },
+                { name: "Tikka Pizza (Large)", cat: "Pizzas", price: 1300, img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500" },
+
+                // Burgers & Broast
+                { name: "Zinger Burger", cat: "Burgers", price: 450, img: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500" },
+                { name: "Crispy Broast", cat: "Broasts", price: 550, img: "https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=500" },
+
+                // Shakes
                 { name: "Mango Shake", cat: "Shakes", price: 300, img: "https://images.unsplash.com/photo-1623065422902-30a2d299bbe4?w=500" },
-                { name: "Strawberry Shake", cat: "Shakes", price: 300, img: "https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=500" },
-                { name: "Oreo Shake", cat: "Shakes", price: 350, img: "https://images.unsplash.com/photo-1577805947697-89e18249d767?w=500" },
-                { name: "Chocolate Shake", cat: "Shakes", price: 350, img: "https://images.unsplash.com/photo-1541658016709-82535e94bc69?w=500" },
-                { name: "Cold Coffee Shake", cat: "Shakes", price: 300, img: "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?w=500" },
-
-                // Shawarma
-                { name: "Regular Shawarma", cat: "Shawarma", price: 170, img: "https://images.unsplash.com/photo-1529006557810-274b9b2fc783?w=500" },
-                { name: "Arabic Shawarma", cat: "Shawarma", price: 200, img: "https://images.unsplash.com/photo-1529006557810-274b9b2fc783?w=500" },
-                { name: "Zinger Shawarma", cat: "Shawarma", price: 300, img: "https://images.unsplash.com/photo-1529006557810-274b9b2fc783?w=500" },
-                { name: "Royal Platter Shawarma", cat: "Shawarma", price: 700, img: "https://images.unsplash.com/photo-1529006557810-274b9b2fc783?w=500" },
-
-                // Fast Food & Gol Gappay
-                { name: "Gol Gappy", cat: "Fast Food", price: 200, img: "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=500" },
-                { name: "Loaded Gol Gappa", cat: "Fast Food", price: 250, img: "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=500" },
-                { name: "Channa Chaat", cat: "Fast Food", price: 150, img: "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=500" },
-                { name: "Dahi Barry", cat: "Fast Food", price: 180, img: "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=500" },
-
-                // Sandwiches & Fries
-                { name: "Classic Club Sandwich", cat: "Sandwiches", price: 400, img: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=500" },
-                { name: "BBQ Club Sandwich", cat: "Sandwiches", price: 450, img: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=500" },
-                { name: "Plain Fries", cat: "French Fries", price: 200, img: "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=500" },
-                { name: "Masala Fries", cat: "French Fries", price: 200, img: "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=500" },
-                { name: "Chicken & Pizza Fries", cat: "French Fries", price: 700, img: "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=500" }
+                { name: "Banana Shake", cat: "Shakes", price: 250, img: "https://images.unsplash.com/photo-1553530666-ba11a7da3888?w=500" }
             ];
 
             menuData.forEach(item => {
@@ -689,6 +657,9 @@
                 <div class="sm:col-span-3">
                     <label class="block text-[10px] font-bold text-gray-400 uppercase">Category</label>
                     <select class="m-cat w-full bg-white border border-gray-200 rounded-xl px-3 py-2 text-xs sm:text-sm text-gray-700 focus:outline-none focus:border-emerald-500">
+                        <option value="Desi Food" ${category==='Desi Food'?'selected':''}>Desi Food</option>
+                        <option value="BBQ" ${category==='BBQ'?'selected':''}>BBQ</option>
+                        <option value="Roti & Naan" ${category==='Roti & Naan'?'selected':''}>Roti & Naan</option>
                         <option value="Pizzas" ${category==='Pizzas'?'selected':''}>Pizzas</option>
                         <option value="Broasts" ${category==='Broasts'?'selected':''}>Broasts</option>
                         <option value="Burgers" ${category==='Burgers'?'selected':''}>Burgers</option>
