@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zipsbite.com | Fast & Delicious Food Delivery</title>
+    <title>Zipsbite.com | Fast Food & Budget Hotel Meals</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
             theme: {
@@ -30,29 +30,37 @@
             }
         }
     </script>
+    <style>
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans antialiased min-h-screen flex flex-col justify-between">
+<body class="bg-gray-50 text-gray-800 font-sans antialiased min-h-screen flex flex-col justify-between pb-24 md:pb-0">
 
     <!-- HEADER / NAVBAR -->
-    <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md shadow-sm border-b border-gray-100">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md shadow-sm border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
             <!-- Logo -->
-            <div class="flex items-center space-x-3 cursor-pointer">
-                <div class="w-12 h-12 bg-brand-500 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-brand-500/30 overflow-hidden">
-                    <i class="fa-solid fa-burger text-2xl"></i>
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+                <div class="w-11 h-11 bg-brand-500 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-brand-500/30">
+                    <i class="fa-solid fa-utensils text-2xl"></i>
                 </div>
                 <div>
-                    <span class="text-xl font-bold tracking-tight text-gray-900">Zips<span class="text-brand-500">bite</span><span class="text-xs text-gray-400 font-normal">.com</span></span>
-                    <span class="block text-xs text-gray-400 font-medium tracking-wider uppercase">Fast Food & Grill</span>
+                    <span class="text-xl font-extrabold tracking-tight text-gray-900">Zips<span class="text-brand-500">bite</span><span class="text-xs text-gray-400 font-normal">.com</span></span>
+                    <span class="block text-[10px] text-gray-400 font-bold tracking-wider uppercase">Budget Hotel & Fast Food</span>
                 </div>
             </div>
 
-            <!-- Cart Button -->
+            <!-- Header Quick Actions -->
             <div class="flex items-center space-x-3">
-                <button onclick="toggleCartModal(true)" class="relative bg-brand-50 hover:bg-brand-100 text-brand-600 p-3 rounded-2xl transition flex items-center space-x-2">
+                <a href="tel:+923000000000" class="hidden sm:flex items-center space-x-2 bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2.5 rounded-2xl text-xs font-bold transition">
+                    <i class="fa-solid fa-phone text-brand-500"></i>
+                    <span>Order Helpline</span>
+                </a>
+                <button onclick="toggleCartModal(true)" class="relative bg-brand-50 hover:bg-brand-100 text-brand-600 px-4 py-2.5 rounded-2xl transition flex items-center space-x-2 border border-brand-100">
                     <i class="fa-solid fa-bag-shopping text-lg"></i>
-                    <span id="cartCountBadge" class="hidden absolute -top-1 -right-1 bg-brand-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold shadow-md">0</span>
-                    <span class="hidden md:inline text-sm font-semibold pr-1">Cart</span>
+                    <span class="font-bold text-sm">Cart</span>
+                    <span id="cartCountBadge" class="hidden bg-brand-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold shadow-md ml-1">0</span>
                 </button>
             </div>
         </div>
@@ -60,10 +68,10 @@
 
     <!-- MAIN APP CONTAINER -->
     <main class="flex-grow">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
             
-            <!-- LIVE ACTIVE ORDER TRACKER BANNER (Shows automatically when order placed) -->
-            <div id="activeOrderTracker" class="hidden scroll-mt-28 bg-gradient-to-r from-gray-900 to-gray-800 text-white rounded-3xl p-6 mb-8 shadow-xl border-2 border-brand-500 relative overflow-hidden">
+            <!-- LIVE ACTIVE ORDER TRACKER BANNER -->
+            <div id="activeOrderTracker" class="hidden scroll-mt-28 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white rounded-3xl p-6 mb-8 shadow-xl border-2 border-brand-500 relative overflow-hidden">
                 <div class="absolute right-0 bottom-0 opacity-10 translate-x-6 translate-y-6 pointer-events-none">
                     <i class="fa-solid fa-motorcycle text-[180px]"></i>
                 </div>
@@ -74,134 +82,285 @@
                             <span class="text-xs font-bold uppercase tracking-wider text-brand-400">Live Order Tracking</span>
                         </div>
                         <h2 class="text-xl font-extrabold" id="trackerOrderId">#ZB-0000</h2>
-                        <p class="text-xs text-gray-300">Your order status updates live from the Zipsbite kitchen.</p>
+                        <p class="text-xs text-gray-300">Aapka order live status par hai.</p>
                     </div>
                     <div class="flex flex-wrap items-center gap-4 bg-white/10 backdrop-blur-md px-5 py-3 rounded-2xl border border-white/10">
                         <div>
-                            <span class="block text-[10px] text-gray-400 uppercase font-bold">Current Status</span>
+                            <span class="block text-[10px] text-gray-400 uppercase font-bold">Status</span>
                             <span id="trackerStatus" class="inline-block mt-0.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-500 text-white">Pending</span>
                         </div>
                         <div class="border-l border-white/20 pl-4">
-                            <span class="block text-[10px] text-gray-400 uppercase font-bold">Estimated Time</span>
+                            <span class="block text-[10px] text-gray-400 uppercase font-bold">Est. Delivery</span>
                             <span id="trackerTime" class="text-sm font-bold text-brand-300">30-40 mins</span>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Hero Banner -->
-            <div class="relative bg-gradient-to-r from-gray-900 via-gray-800 to-brand-700 rounded-3xl p-6 sm:p-12 mb-10 overflow-hidden shadow-2xl">
+            <!-- HERO BANNER -->
+            <div class="relative bg-gradient-to-br from-gray-900 via-gray-800 to-brand-700 rounded-3xl p-6 sm:p-10 mb-8 overflow-hidden shadow-2xl">
                 <div class="relative z-10 max-w-xl">
-                    <span class="inline-block bg-brand-500/20 border border-brand-500/30 text-brand-300 text-xs font-semibold px-3 py-1 rounded-full mb-4 uppercase tracking-wider">🔥 Zipsbite.com Hot Deals</span>
-                    <h1 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight mb-4 leading-tight">Lightning Fast <span class="text-brand-500">Food Delivery</span></h1>
-                    <p class="text-gray-300 text-sm sm:text-base mb-6">Satisfy your cravings instantly with our handcrafted burgers, loaded pizzas, and crispy fries delivered right to your doorstep via Zipsbite.com.</p>
-                    <div class="flex items-center space-x-4">
-                        <a href="#menuSection" class="bg-brand-500 hover:bg-brand-600 text-white font-semibold px-6 py-3 rounded-2xl shadow-lg shadow-brand-500/30 transition transform hover:-translate-y-0.5">Order Now</a>
-                        <div class="flex items-center space-x-2 text-gray-300 text-sm">
-                            <i class="fa-solid fa-clock text-brand-400"></i>
-                            <span>Delivery in 30 mins</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="absolute right-0 bottom-0 opacity-20 sm:opacity-40 translate-x-10 translate-y-10 pointer-events-none">
-                    <i class="fa-solid fa-utensils text-[220px] text-white"></i>
+                    <span class="inline-block bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-xs font-bold px-3.5 py-1 rounded-full mb-3 uppercase tracking-wider">🍛 Sasta & Tazah Hotel Ka Khana</span>
+                    <h1 class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight mb-3 leading-tight">Kam Price Me <span class="text-brand-500">Khas Hotel Food!</span></h1>
+                    <p class="text-gray-300 text-xs sm:text-sm">Ghar aur Dukan walon ke liye rozana ka sasta hotel menu (Daal, Qorma, Biryani, Roti) ab Online order karein.</p>
                 </div>
             </div>
 
-            <!-- Menu Section -->
-            <div id="menuSection" class="scroll-mt-28">
-                <!-- Category Filter Pills -->
-                <div class="flex items-center space-x-2 overflow-x-auto pb-4 mb-8 no-scrollbar" id="categoryFilters">
-                    <button onclick="filterCategory('All')" class="category-btn active px-5 py-2.5 rounded-2xl text-sm font-semibold whitespace-nowrap transition bg-brand-600 text-white shadow-md shadow-brand-500/20">All Items</button>
-                    <button onclick="filterCategory('Burgers')" class="category-btn px-5 py-2.5 rounded-2xl text-sm font-semibold whitespace-nowrap transition bg-white text-gray-600 hover:bg-gray-100 border border-gray-100">Burgers</button>
-                    <button onclick="filterCategory('Pizzas')" class="category-btn px-5 py-2.5 rounded-2xl text-sm font-semibold whitespace-nowrap transition bg-white text-gray-600 hover:bg-gray-100 border border-gray-100">Pizzas</button>
-                    <button onclick="filterCategory('Sides')" class="category-btn px-5 py-2.5 rounded-2xl text-sm font-semibold whitespace-nowrap transition bg-white text-gray-600 hover:bg-gray-100 border border-gray-100">Sides & Fries</button>
-                    <button onclick="filterCategory('Drinks')" class="category-btn px-5 py-2.5 rounded-2xl text-sm font-semibold whitespace-nowrap transition bg-white text-gray-600 hover:bg-gray-100 border border-gray-100">Beverages</button>
+            <!-- SPECIAL SECTION: BUDGET HOTEL MEALS BANNER -->
+            <div class="bg-gradient-to-r from-emerald-900 to-teal-800 text-white rounded-3xl p-6 mb-10 shadow-lg border border-emerald-700 flex flex-col md:flex-row items-center justify-between gap-6">
+                <div class="space-y-2">
+                    <span class="bg-emerald-500 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase">Rozana Ka Budget Khana</span>
+                    <h2 class="text-xl sm:text-2xl font-extrabold">Sasta Hotel Menu (Daal, Qorma, Roti)</h2>
+                    <p class="text-xs text-emerald-100 max-w-lg">Dukan aur Ghar ke liye kam qeemat me fresh hotel khana directly order karein.</p>
+                </div>
+                <button onclick="filterCategory('Hotel Meals')" class="bg-white text-emerald-900 hover:bg-emerald-50 font-bold px-6 py-3 rounded-2xl text-xs shadow-md transition whitespace-nowrap">
+                    Dekhein Hotel Deals 🍲
+                </button>
+            </div>
+
+            <!-- CATEGORIES SECTION -->
+            <div class="mb-12">
+                <div class="flex items-center justify-between mb-6">
+                    <div>
+                        <h2 class="text-xl font-extrabold text-gray-900 tracking-tight">Explore Food Categories</h2>
+                        <p class="text-xs text-gray-400 font-medium">Fast food se le kar daily hotel meals tak</p>
+                    </div>
+                    <button onclick="filterCategory('All')" class="text-xs font-bold text-brand-600 hover:text-brand-700 bg-brand-50 px-3 py-1.5 rounded-xl transition">
+                        Show All Items
+                    </button>
                 </div>
 
-                <!-- Products Grid -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-4">
+                    <!-- Hotel Meals Card -->
+                    <div onclick="filterCategory('Hotel Meals')" class="group relative h-40 rounded-3xl overflow-hidden cursor-pointer shadow-md hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 border-2 border-emerald-500">
+                        <img src="https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=600&q=80" alt="Hotel Meals" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-emerald-950/90 via-black/40 to-transparent flex flex-col justify-end p-3">
+                            <span class="text-[9px] text-emerald-300 font-bold uppercase tracking-wider">Budget Special</span>
+                            <h3 class="text-sm font-extrabold text-white leading-tight">Hotel Meals</h3>
+                        </div>
+                    </div>
+
+                    <!-- Biryani Card -->
+                    <div onclick="filterCategory('Biryani')" class="group relative h-40 rounded-3xl overflow-hidden cursor-pointer shadow-md hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+                        <img src="https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=600&q=80" alt="Biryani" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent flex flex-col justify-end p-3">
+                            <span class="text-[9px] text-brand-400 font-bold uppercase tracking-wider">Spicy & Hot</span>
+                            <h3 class="text-sm font-extrabold text-white leading-tight">Biryani</h3>
+                        </div>
+                    </div>
+
+                    <!-- Nehari Card -->
+                    <div onclick="filterCategory('Nehari')" class="group relative h-40 rounded-3xl overflow-hidden cursor-pointer shadow-md hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+                        <img src="https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=600&q=80" alt="Nehari" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent flex flex-col justify-end p-3">
+                            <span class="text-[9px] text-brand-400 font-bold uppercase tracking-wider">Desi Special</span>
+                            <h3 class="text-sm font-extrabold text-white leading-tight">Nehari</h3>
+                        </div>
+                    </div>
+
+                    <!-- Shake Card -->
+                    <div onclick="filterCategory('Shakes')" class="group relative h-40 rounded-3xl overflow-hidden cursor-pointer shadow-md hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+                        <img src="https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=600&q=80" alt="Shakes" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent flex flex-col justify-end p-3">
+                            <span class="text-[9px] text-brand-400 font-bold uppercase tracking-wider">Chilled Drinks</span>
+                            <h3 class="text-sm font-extrabold text-white leading-tight">Shakes</h3>
+                        </div>
+                    </div>
+
+                    <!-- Burgers Card -->
+                    <div onclick="filterCategory('Burgers')" class="group relative h-40 rounded-3xl overflow-hidden cursor-pointer shadow-md hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+                        <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600&q=80" alt="Burgers" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent flex flex-col justify-end p-3">
+                            <span class="text-[9px] text-brand-400 font-bold uppercase tracking-wider">Fast Food</span>
+                            <h3 class="text-sm font-extrabold text-white leading-tight">Burgers</h3>
+                        </div>
+                    </div>
+
+                    <!-- Pizzas Card -->
+                    <div onclick="filterCategory('Pizzas')" class="group relative h-40 rounded-3xl overflow-hidden cursor-pointer shadow-md hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+                        <img src="https://images.unsplash.com/photo-1628840042765-356cda07504e?auto=format&fit=crop&w=600&q=80" alt="Pizzas" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent flex flex-col justify-end p-3">
+                            <span class="text-[9px] text-brand-400 font-bold uppercase tracking-wider">Cheesy Crust</span>
+                            <h3 class="text-sm font-extrabold text-white leading-tight">Pizzas</h3>
+                        </div>
+                    </div>
+
+                    <!-- Sides Card -->
+                    <div onclick="filterCategory('Sides')" class="group relative h-40 rounded-3xl overflow-hidden cursor-pointer shadow-md hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+                        <img src="https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=600&q=80" alt="Sides" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent flex flex-col justify-end p-3">
+                            <span class="text-[9px] text-brand-400 font-bold uppercase tracking-wider">Snacks</span>
+                            <h3 class="text-sm font-extrabold text-white leading-tight">Sides</h3>
+                        </div>
+                    </div>
+
+                    <!-- Drinks Card -->
+                    <div onclick="filterCategory('Drinks')" class="group relative h-40 rounded-3xl overflow-hidden cursor-pointer shadow-md hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+                        <img src="https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=600&q=80" alt="Beverages" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent flex flex-col justify-end p-3">
+                            <span class="text-[9px] text-brand-400 font-bold uppercase tracking-wider">Cold Drinks</span>
+                            <h3 class="text-sm font-extrabold text-white leading-tight">Beverages</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SEARCH & FILTERS -->
+            <div id="menuSection" class="scroll-mt-28 bg-white p-4 rounded-3xl shadow-sm border border-gray-100 mb-8 space-y-4">
+                <div class="flex flex-col md:flex-row gap-3">
+                    <div class="relative flex-1">
+                        <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                        <input type="text" id="searchInput" oninput="handleSearchAndFilter()" placeholder="Search khana... (e.g. Daal Fry, Qorma, Biryani, Zinger)" class="w-full bg-gray-50 border border-gray-200 rounded-2xl pl-11 pr-4 py-3 text-sm focus:outline-none focus:border-brand-500 transition">
+                    </div>
+                    <div class="w-full md:w-56">
+                        <select id="sortSelect" onchange="handleSearchAndFilter()" class="w-full bg-gray-50 border border-gray-200 rounded-2xl px-4 py-3 text-sm focus:outline-none focus:border-brand-500 font-medium">
+                            <option value="default">Sort by: Default</option>
+                            <option value="price-low">Price: Low to High</option>
+                            <option value="price-high">Price: High to Low</option>
+                            <option value="rating">Highest Rated</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between pt-2 border-t border-gray-100">
+                    <div class="flex items-center space-x-2 overflow-x-auto no-scrollbar py-1" id="categoryFilters">
+                        <button onclick="filterCategory('All')" class="category-btn active px-4 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition bg-brand-600 text-white shadow-md">All Items</button>
+                        <button onclick="filterCategory('Hotel Meals')" class="category-btn px-4 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition bg-emerald-600 text-white hover:bg-emerald-700 shadow-sm">🍲 Hotel Meals (Low Price)</button>
+                        <button onclick="filterCategory('Biryani')" class="category-btn px-4 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition bg-gray-100 text-gray-600 hover:bg-gray-200">Biryani</button>
+                        <button onclick="filterCategory('Nehari')" class="category-btn px-4 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition bg-gray-100 text-gray-600 hover:bg-gray-200">Nehari</button>
+                        <button onclick="filterCategory('Shakes')" class="category-btn px-4 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition bg-gray-100 text-gray-600 hover:bg-gray-200">Shakes</button>
+                        <button onclick="filterCategory('Burgers')" class="category-btn px-4 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition bg-gray-100 text-gray-600 hover:bg-gray-200">Burgers</button>
+                        <button onclick="filterCategory('Pizzas')" class="category-btn px-4 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition bg-gray-100 text-gray-600 hover:bg-gray-200">Pizzas</button>
+                        <button onclick="filterCategory('Sides')" class="category-btn px-4 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition bg-gray-100 text-gray-600 hover:bg-gray-200">Sides</button>
+                        <button onclick="filterCategory('Drinks')" class="category-btn px-4 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition bg-gray-100 text-gray-600 hover:bg-gray-200">Beverages</button>
+                    </div>
+                    <span id="activeCategoryHeading" class="hidden sm:inline-block text-xs font-extrabold text-brand-600 bg-brand-50 px-3 py-1 rounded-lg">Showing: All Items</span>
+                </div>
+            </div>
+
+            <!-- PRODUCTS MENU GRID -->
+            <div>
                 <div id="productsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                    <!-- Loaded dynamically from Firebase -->
+                    <!-- Dynamic Items -->
                 </div>
             </div>
         </div>
     </main>
 
+    <!-- FLOATING BOTTOM QUICK CART BAR -->
+    <div id="floatingCartBar" class="fixed bottom-4 left-4 right-4 max-w-md mx-auto bg-gray-900 text-white p-4 rounded-3xl shadow-2xl border border-gray-700 flex items-center justify-between z-30 transition-transform duration-300 translate-y-32">
+        <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 bg-brand-500 rounded-2xl flex items-center justify-center font-bold text-white shadow-md" id="floatCartCount">0</div>
+            <div>
+                <span class="block text-xs text-gray-400">Total Price</span>
+                <span class="text-base font-extrabold text-brand-400" id="floatCartTotal">Rs. 0</span>
+            </div>
+        </div>
+        <button onclick="toggleCartModal(true)" class="bg-brand-500 hover:bg-brand-600 text-white px-5 py-2.5 rounded-2xl font-bold text-xs shadow-lg transition flex items-center space-x-2">
+            <span>View Cart</span>
+            <i class="fa-solid fa-arrow-right"></i>
+        </button>
+    </div>
+
     <!-- FOOTER -->
-    <footer class="bg-white border-t border-gray-100 py-8 mt-12">
+    <footer class="bg-white border-t border-gray-100 py-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-400 space-y-4 sm:space-y-0">
             <div class="flex items-center space-x-2">
                 <div class="w-6 h-6 bg-brand-500 rounded-lg flex items-center justify-center text-white">
-                    <i class="fa-solid fa-burger text-xs"></i>
+                    <i class="fa-solid fa-utensils text-xs"></i>
                 </div>
-                <span class="font-semibold text-gray-700">Zipsbite.com Delivery System</span>
+                <span class="font-bold text-gray-700">Zipsbite.com Budget Hotel Food Service</span>
                 <span>&copy; 2026 All rights reserved.</span>
-            </div>
-            <div>
-                <span class="text-gray-400">Fresh & Fast Food Delivery</span>
             </div>
         </div>
     </footer>
 
-
-    <!-- ===== CART & CHECKOUT SLIDE-OVER MODAL ===== -->
+    <!-- CART & CHECKOUT MODAL -->
     <div id="cartModal" class="fixed inset-0 z-50 overflow-hidden hidden">
-        <div class="absolute inset-0 bg-gray-900/50 backdrop-blur-sm transition-opacity" onclick="toggleCartModal(false)"></div>
+        <div class="absolute inset-0 bg-gray-900/60 backdrop-blur-sm transition-opacity" onclick="toggleCartModal(false)"></div>
         <div class="absolute inset-y-0 right-0 max-w-full flex pl-10">
             <div class="w-screen max-w-md bg-white shadow-2xl flex flex-col">
-                <div class="p-6 border-b border-gray-100 flex items-center justify-between bg-gray-50">
+                <div class="p-5 border-b border-gray-100 flex items-center justify-between bg-gray-50">
                     <div class="flex items-center space-x-2">
                         <i class="fa-solid fa-bag-shopping text-brand-600 text-lg"></i>
-                        <h2 class="text-lg font-bold text-gray-900">Your Zipsbite Cart</h2>
+                        <h2 class="text-base font-bold text-gray-900" id="modalStepTitle">Your Shopping Cart</h2>
                     </div>
-                    <button onclick="toggleCartModal(false)" class="w-9 h-9 rounded-full bg-gray-200/70 hover:bg-gray-200 flex items-center justify-center text-gray-600 transition">
+                    <button onclick="toggleCartModal(false)" class="w-8 h-8 rounded-full bg-gray-200/70 hover:bg-gray-200 flex items-center justify-center text-gray-600 transition">
                         <i class="fa-solid fa-xmark"></i>
                     </button>
                 </div>
-                <div id="cartModalBody" class="flex-1 overflow-y-auto p-6 space-y-6"></div>
+                <div class="bg-gray-100 px-6 py-2.5 border-b border-gray-200 flex items-center justify-between text-[11px] font-bold text-gray-500">
+                    <span id="stepIndicator1" class="text-brand-600"><i class="fa-solid fa-circle-check"></i> 1. Items</span>
+                    <span id="stepIndicator2"><i class="fa-solid fa-circle"></i> 2. Location Type</span>
+                    <span id="stepIndicator3"><i class="fa-solid fa-circle"></i> 3. Confirm</span>
+                </div>
+                <div id="cartModalBody" class="flex-1 overflow-y-auto p-6 space-y-5"></div>
                 <div id="cartModalFooter" class="p-6 border-t border-gray-100 bg-gray-50"></div>
             </div>
         </div>
     </div>
 
+    <!-- PRODUCT DETAILS MODAL -->
+    <div id="productModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm hidden">
+        <div class="bg-white rounded-3xl max-w-md w-full overflow-hidden shadow-2xl relative">
+            <button onclick="closeProductModal()" class="absolute top-4 right-4 z-10 w-9 h-9 rounded-full bg-white/80 hover:bg-white text-gray-700 flex items-center justify-center shadow-md">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="h-56 bg-gray-100 relative">
+                <img id="detailImg" src="" class="w-full h-full object-cover">
+                <span id="detailCategory" class="absolute top-4 left-4 bg-brand-500 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase"></span>
+            </div>
+            <div class="p-6">
+                <div class="flex items-center justify-between mb-2">
+                    <h3 id="detailTitle" class="text-xl font-extrabold text-gray-900"></h3>
+                    <span id="detailPrice" class="text-lg font-bold text-brand-600"></span>
+                </div>
+                <p id="detailDesc" class="text-xs text-gray-500 mb-6 leading-relaxed"></p>
+                <button id="detailAddBtn" class="w-full bg-brand-500 hover:bg-brand-600 text-white font-bold py-3.5 rounded-2xl shadow-lg transition flex items-center justify-center space-x-2">
+                    <i class="fa-solid fa-plus"></i>
+                    <span>Add to Cart</span>
+                </button>
+            </div>
+        </div>
+    </div>
 
-    <!-- ===== ORDER SUCCESS MODAL ===== -->
+    <!-- ORDER SUCCESS MODAL -->
     <div id="successModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm hidden">
         <div class="bg-white rounded-3xl max-w-md w-full p-8 shadow-2xl text-center relative">
             <div class="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-5 text-3xl shadow-inner">
                 <i class="fa-solid fa-check"></i>
             </div>
-            <h3 class="text-2xl font-bold text-gray-900 mb-1">Order Placed on Zipsbite.com!</h3>
-            <p class="text-sm text-gray-500 mb-6">Your order has been sent to the restaurant. You can track your live status right on top of the homepage.</p>
+            <h3 class="text-2xl font-bold text-gray-900 mb-1">Order Placed Successfully!</h3>
+            <p class="text-xs text-gray-500 mb-6">Hotel kitchen me aapka order punch kar diya gaya hai.</p>
             <div class="bg-gray-50 rounded-2xl p-4 text-left text-xs space-y-2 border border-gray-100 mb-6">
                 <div class="flex justify-between text-gray-500">
                     <span>Order ID:</span>
                     <span id="receiptOrderId" class="font-mono font-bold text-gray-800">#ZB-0000</span>
                 </div>
                 <div class="flex justify-between text-gray-500">
+                    <span>Delivery Destination:</span>
+                    <span id="receiptLocationType" class="font-bold text-brand-600 uppercase">Home</span>
+                </div>
+                <div class="flex justify-between text-gray-500">
                     <span>Customer Name:</span>
                     <span id="receiptCustomerName" class="font-semibold text-gray-800">-</span>
                 </div>
                 <div class="flex justify-between font-bold text-gray-900 text-sm border-t border-gray-200 pt-2">
-                    <span>Subtotal Items:</span>
+                    <span>Total Amount:</span>
                     <span id="receiptTotal" class="text-brand-600">Rs. 0.00</span>
                 </div>
             </div>
-            <button onclick="closeSuccessModal()" class="w-full bg-brand-500 hover:bg-brand-600 text-white font-semibold py-3.5 rounded-2xl shadow-lg transition">
-                Track Live Order
+            <button onclick="closeSuccessModal()" class="w-full bg-brand-500 hover:bg-brand-600 text-white font-bold py-3.5 rounded-2xl shadow-lg transition">
+                Track Live Delivery Status
             </button>
         </div>
     </div>
 
-
-    <!-- ===== FIREBASE & APP SCRIPT ===== -->
+    <!-- FIREBASE & SCRIPT -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
     <script>
-        /* ========================================================
-           FIREBASE CONFIGURATION
-           ======================================================== */
         const firebaseConfig = {
           apiKey: "AIzaSyDISQwF-uMbIYrB9nTcBVWHCKpUFf4RIkg",
           authDomain: "fast-food-e6022.firebaseapp.com",
@@ -213,75 +372,23 @@
 
         let db;
         try {
-            if (!firebase.apps.length) {
-                firebase.initializeApp(firebaseConfig);
-            }
+            if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
             db = firebase.database();
-        } catch (e) {
-            console.error("Firebase initialization failed:", e);
-        }
+        } catch (e) { console.error(e); }
 
         let menuProducts = [];
         let cart = [];
         let activeCategory = 'All';
         let currentModalStep = 'cart';
-        let capturedLat = null;
-        let capturedLng = null;
-        let lastKnownStatus = null;
+        let selectedOrderType = 'home';
 
         document.addEventListener('DOMContentLoaded', () => {
             initFirebaseListeners();
             updateCartBadge();
         });
 
-        // Long & Smooth Multi-tone Sound Generator (Web Audio API)
-        function playNotificationSound() {
-            try {
-                const AudioContext = window.AudioContext || window.webkitAudioContext;
-                if (!AudioContext) return;
-                const ctx = new AudioContext();
-
-                // Tone 1: Soft warm melody note
-                const osc1 = ctx.createOscillator();
-                const gain1 = ctx.createGain();
-                osc1.type = 'sine';
-                osc1.frequency.setValueAtTime(523.25, ctx.currentTime); // C5
-
-                // Tone 2: Gentle higher chime note
-                const osc2 = ctx.createOscillator();
-                const gain2 = ctx.createGain();
-                osc2.type = 'sine';
-                osc2.frequency.setValueAtTime(659.25, ctx.currentTime + 0.12); // E5
-
-                // Smooth volume envelopes for a nice 1.5s fade-out
-                gain1.gain.setValueAtTime(0, ctx.currentTime);
-                gain1.gain.linearRampToValueAtTime(0.2, ctx.currentTime + 0.05);
-                gain1.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1.2);
-
-                gain2.gain.setValueAtTime(0, ctx.currentTime + 0.12);
-                gain2.gain.linearRampToValueAtTime(0.25, ctx.currentTime + 0.17);
-                gain2.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1.5);
-
-                osc1.connect(gain1);
-                gain1.connect(ctx.destination);
-
-                osc2.connect(gain2);
-                gain2.connect(ctx.destination);
-
-                osc1.start(ctx.currentTime);
-                osc1.stop(ctx.currentTime + 1.2);
-
-                osc2.start(ctx.currentTime + 0.12);
-                osc2.stop(ctx.currentTime + 1.5);
-            } catch (err) {
-                console.log("Audio notification error:", err);
-            }
-        }
-
         function initFirebaseListeners() {
             if (!db) return;
-
-            // Fetch Products Live from Firebase
             db.ref('products').on('value', (snapshot) => {
                 const data = snapshot.val();
                 if (data) {
@@ -290,100 +397,104 @@
                     menuProducts = [];
                     seedDefaultProducts();
                 }
-                renderProducts(activeCategory === 'All' ? menuProducts : menuProducts.filter(p => p.category === activeCategory));
+                handleSearchAndFilter();
             });
 
-            // Check if customer has an active order to track in localStorage
             const savedOrderKey = localStorage.getItem('zipsbite_active_order_key');
-            if (savedOrderKey) {
-                listenToActiveOrder(savedOrderKey);
-            }
-        }
-
-        function listenToActiveOrder(firebaseKey) {
-            if (!db || !firebaseKey) return;
-
-            db.ref('orders/' + firebaseKey).on('value', (snapshot) => {
-                const order = snapshot.val();
-                const tracker = document.getElementById('activeOrderTracker');
-
-                if (order && order.status !== 'Delivered' && order.status !== 'Cancelled') {
-                    tracker.classList.remove('hidden');
-                    document.getElementById('trackerOrderId').textContent = '#' + (order.orderId || 'ZB-0000');
-                    document.getElementById('trackerStatus').textContent = order.status;
-                    document.getElementById('trackerTime').textContent = order.deliveryTime || '30-40 mins';
-
-                    // Smooth Scroll & Play Long Sound when admin updates status
-                    if (lastKnownStatus && lastKnownStatus !== order.status) {
-                        playNotificationSound();
-                        tracker.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }
-                    lastKnownStatus = order.status;
-
-                    // Update Badge Color based on status
-                    const statusBadge = document.getElementById('trackerStatus');
-                    if (order.status === 'Pending') {
-                        statusBadge.className = "inline-block mt-0.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-500 text-white";
-                    } else if (order.status === 'Preparing') {
-                        statusBadge.className = "inline-block mt-0.5 px-3 py-1 rounded-full text-xs font-bold bg-blue-500 text-white";
-                    } else if (order.status === 'On the Way') {
-                        statusBadge.className = "inline-block mt-0.5 px-3 py-1 rounded-full text-xs font-bold bg-purple-500 text-white";
-                    }
-                } else {
-                    tracker.classList.add('hidden');
-                    if (order && (order.status === 'Delivered' || order.status === 'Cancelled')) {
-                        localStorage.removeItem('zipsbite_active_order_key');
-                        lastKnownStatus = null;
-                    }
-                }
-            });
+            if (savedOrderKey) listenToActiveOrder(savedOrderKey);
         }
 
         function seedDefaultProducts() {
             const defaults = [
-                { name: "Ultimate Cheeseburger", category: "Burgers", price: 850, rating: 4.9, reviews: 124, image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600&q=80", description: "Juicy beef patty with double cheddar, crisp lettuce, tomato & special sauce." },
-                { name: "Pepperoni Inferno Pizza", category: "Pizzas", price: 1499, rating: 4.9, reviews: 210, image: "https://images.unsplash.com/photo-1628840042765-356cda07504e?auto=format&fit=crop&w=600&q=80", description: "Loaded with spicy pepperoni, mozzarella cheese, and rich tomato herb sauce." },
-                { name: "Loaded Truffle Fries", category: "Sides", price: 450, rating: 4.6, reviews: 67, image: "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=600&q=80", description: "Crispy golden french fries tossed in truffle oil and topped with melted cheese." },
-                { name: "Classic Cola", category: "Drinks", price: 200, rating: 4.9, reviews: 310, image: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=600&q=80", description: "Icy cold sparkling cola served with crushed ice and lemon slice." }
+                // SASTA HOTEL KHANA (BUDGET MEALS)
+                { name: "Special Daal Fry + 2 Roti", category: "Hotel Meals", price: 180, rating: 4.8, image: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=600&q=80", description: "Taza deshi ghee tarka daal with 2 hot tandoori rotis. Daily budget lunch." },
+                { name: "Chicken Qorma (Half Plate)", category: "Hotel Meals", price: 320, rating: 4.9, image: "https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&w=600&q=80", description: "Traditional hotel style thick chicken qorma gravied with spices." },
+                { name: "Aloo Palak Plate + Salad", category: "Hotel Meals", price: 150, rating: 4.7, image: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=600&q=80", description: "Fresh daily cooked veg meal with salad." },
+                // DESI & FAST FOOD
+                { name: "Special Beef Nalli Nehari", category: "Nehari", price: 950, rating: 4.9, image: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=600&q=80", description: "Slow cooked rich beef nehari with nalli and ginger garnish." },
+                { name: "Chicken Dum Biryani (Full)", category: "Biryani", price: 480, rating: 5.0, image: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=600&q=80", description: "Authentic aromatic basmati rice dum biryani with tender chicken." },
+                { name: "Chocolate Fudge Shake", category: "Shakes", price: 380, rating: 4.8, image: "https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=600&q=80", description: "Rich chocolate icecream blended with fudge syrup." },
+                { name: "Ultimate Cheeseburger", category: "Burgers", price: 850, rating: 4.9, image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600&q=80", description: "Juicy beef patty with double cheddar cheese." }
             ];
             defaults.forEach(item => db.ref('products').push(item));
         }
 
-        // ================= USER FUNCTIONS =================
+        function filterCategory(category) {
+            activeCategory = category;
+            document.getElementById('activeCategoryHeading').textContent = `Showing: ${category === 'All' ? 'All Items' : category}`;
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                if (btn.textContent.toLowerCase().includes(category.toLowerCase()) || (category === 'All' && btn.textContent.includes('All Items'))) {
+                    btn.className = "category-btn active px-4 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition bg-brand-600 text-white shadow-md";
+                } else {
+                    btn.className = "category-btn px-4 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition bg-gray-100 text-gray-600 hover:bg-gray-200";
+                }
+            });
+            handleSearchAndFilter();
+            const section = document.getElementById('menuSection');
+            if (section) section.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function handleSearchAndFilter() {
+            const query = document.getElementById('searchInput').value.toLowerCase().trim();
+            const sortVal = document.getElementById('sortSelect').value;
+            let items = [...menuProducts];
+
+            if (activeCategory !== 'All') {
+                items = items.filter(p => p.category && p.category.toLowerCase() === activeCategory.toLowerCase());
+            }
+
+            if (query) {
+                items = items.filter(p => p.name.toLowerCase().includes(query) || (p.description && p.description.toLowerCase().includes(query)));
+            }
+
+            if (sortVal === 'price-low') items.sort((a, b) => Number(a.price) - Number(b.price));
+            else if (sortVal === 'price-high') items.sort((a, b) => Number(b.price) - Number(a.price));
+            else if (sortVal === 'rating') items.sort((a, b) => Number(b.rating || 0) - Number(a.rating || 0));
+
+            renderProducts(items);
+        }
+
         function renderProducts(productsToRender) {
             const grid = document.getElementById('productsGrid');
             grid.innerHTML = '';
 
             if (productsToRender.length === 0) {
-                grid.innerHTML = `<div class="col-span-full py-12 text-center text-gray-400"><p>No items found.</p></div>`;
+                grid.innerHTML = `<div class="col-span-full py-12 text-center"><i class="fa-solid fa-utensils text-4xl text-gray-300 mb-3 block"></i><p class="text-sm font-semibold text-gray-500">Is category me koi food item nahi mila.</p></div>`;
                 return;
             }
 
             productsToRender.forEach(product => {
                 const card = document.createElement('div');
-                card.className = "bg-white rounded-3xl p-4 shadow-sm hover:shadow-xl transition duration-300 border border-gray-100 flex flex-col justify-between group";
+                card.className = "bg-white rounded-3xl p-4 shadow-sm hover:shadow-xl transition duration-300 border border-gray-100 flex flex-col justify-between group cursor-pointer relative";
+                card.onclick = (e) => {
+                    if (!e.target.closest('.add-btn')) openProductModal(product);
+                };
+
+                const isBudget = product.category === 'Hotel Meals' || Number(product.price) < 250;
+
                 card.innerHTML = `
                     <div>
-                        <div class="relative w-full h-48 rounded-2xl overflow-hidden mb-4 bg-gray-100">
+                        <div class="relative w-full h-44 rounded-2xl overflow-hidden mb-3 bg-gray-100">
                             <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                            <span class="absolute top-3 left-3 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-xs font-semibold text-gray-800 shadow-sm">${product.category}</span>
+                            <span class="absolute top-3 left-3 bg-white/90 backdrop-blur-md px-2.5 py-0.5 rounded-full text-[10px] font-bold text-gray-800 shadow-sm">${product.category}</span>
+                            ${isBudget ? `<span class="absolute top-3 right-3 bg-emerald-600 text-white text-[9px] font-bold px-2 py-0.5 rounded-full shadow-md">Budget Meal</span>` : ''}
                         </div>
                         <div class="flex items-center justify-between mb-1">
-                            <h3 class="font-bold text-gray-900 text-lg line-clamp-1">${product.name}</h3>
-                            <div class="flex items-center space-x-1 text-xs font-semibold text-amber-500 bg-amber-50 px-2 py-0.5 rounded-lg">
+                            <h3 class="font-bold text-gray-900 text-sm line-clamp-1">${product.name}</h3>
+                            <div class="flex items-center space-x-1 text-[11px] font-bold text-amber-500 bg-amber-50 px-2 py-0.5 rounded-md">
                                 <i class="fa-solid fa-star"></i>
                                 <span>${product.rating || 4.8}</span>
                             </div>
                         </div>
-                        <p class="text-xs text-gray-500 line-clamp-2 mb-4">${product.description}</p>
+                        <p class="text-xs text-gray-400 line-clamp-2 mb-4">${product.description || ''}</p>
                     </div>
                     <div class="flex items-center justify-between pt-3 border-t border-gray-100">
                         <div>
-                            <span class="text-xs text-gray-400 block">Price</span>
-                            <span class="text-lg font-extrabold text-gray-900">Rs. ${Number(product.price).toFixed(0)}</span>
+                            <span class="text-[10px] text-gray-400 font-bold uppercase block">Price</span>
+                            <span class="text-base font-extrabold text-gray-900">Rs. ${Number(product.price).toFixed(0)}</span>
                         </div>
-                        <button onclick="addToCart('${product.firebaseKey}')" class="bg-brand-50 hover:bg-brand-600 text-brand-600 hover:text-white px-4 py-2.5 rounded-xl font-semibold text-sm transition shadow-sm flex items-center space-x-2">
-                            <i class="fa-solid fa-plus text-xs"></i>
+                        <button onclick="addToCart('${product.firebaseKey}')" class="add-btn bg-brand-500 hover:bg-brand-600 text-white px-4 py-2 rounded-xl font-bold text-xs transition shadow-md shadow-brand-500/20 flex items-center space-x-1.5">
+                            <i class="fa-solid fa-plus text-[10px]"></i>
                             <span>Add</span>
                         </button>
                     </div>
@@ -392,51 +503,52 @@
             });
         }
 
-        function filterCategory(category) {
-            activeCategory = category;
-            document.querySelectorAll('.category-btn').forEach(btn => {
-                if (btn.textContent.includes(category) || (category === 'All' && btn.textContent.includes('All Items'))) {
-                    btn.className = "category-btn active px-5 py-2.5 rounded-2xl text-sm font-semibold whitespace-nowrap transition bg-brand-600 text-white shadow-md shadow-brand-500/20";
-                } else {
-                    btn.className = "category-btn px-5 py-2.5 rounded-2xl text-sm font-semibold whitespace-nowrap transition bg-white text-gray-600 hover:bg-gray-100 border border-gray-100";
-                }
-            });
-            renderProducts(category === 'All' ? menuProducts : menuProducts.filter(p => p.category === category));
+        function openProductModal(product) {
+            document.getElementById('detailImg').src = product.image;
+            document.getElementById('detailCategory').textContent = product.category;
+            document.getElementById('detailTitle').textContent = product.name;
+            document.getElementById('detailPrice').textContent = 'Rs. ' + Number(product.price).toFixed(0);
+            document.getElementById('detailDesc').textContent = product.description;
+            const btn = document.getElementById('detailAddBtn');
+            btn.onclick = () => { addToCart(product.firebaseKey); closeProductModal(); };
+            document.getElementById('productModal').classList.remove('hidden');
         }
+
+        function closeProductModal() { document.getElementById('productModal').classList.add('hidden'); }
 
         function addToCart(firebaseKey) {
             const product = menuProducts.find(p => p.firebaseKey === firebaseKey);
             if (!product) return;
-
-            const existingItem = cart.find(item => item.firebaseKey === firebaseKey);
-            if (existingItem) {
-                existingItem.quantity += 1;
-            } else {
-                cart.push({ ...product, quantity: 1 });
-            }
+            const existing = cart.find(i => i.firebaseKey === firebaseKey);
+            if (existing) existing.quantity += 1;
+            else cart.push({ ...product, quantity: 1 });
             updateCartBadge();
         }
 
         function updateQuantity(firebaseKey, delta) {
             const item = cart.find(i => i.firebaseKey === firebaseKey);
             if (!item) return;
-
             item.quantity += delta;
-            if (item.quantity <= 0) {
-                cart = cart.filter(i => i.firebaseKey !== firebaseKey);
-            }
+            if (item.quantity <= 0) cart = cart.filter(i => i.firebaseKey !== firebaseKey);
             updateCartBadge();
             renderCartModalContent();
         }
 
         function updateCartBadge() {
             const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const totalAmount = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
             const badge = document.getElementById('cartCountBadge');
+            const floatBar = document.getElementById('floatingCartBar');
+
             if (totalCount > 0) {
                 badge.textContent = totalCount;
                 badge.classList.remove('hidden');
+                document.getElementById('floatCartCount').textContent = totalCount;
+                document.getElementById('floatCartTotal').textContent = 'Rs. ' + totalAmount.toFixed(0);
+                floatBar.classList.remove('translate-y-32');
             } else {
                 badge.classList.add('hidden');
+                floatBar.classList.add('translate-y-32');
             }
         }
 
@@ -451,55 +563,42 @@
             }
         }
 
-        function getLiveLocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    (position) => {
-                        capturedLat = position.coords.latitude;
-                        capturedLng = position.coords.longitude;
-                        const mapsUrl = `https://www.google.com/maps?q=${capturedLat},${capturedLng}`;
-                        document.getElementById('custAddress').value = `📍 GPS Location Link: ${mapsUrl}`;
-                        alert("Location successfully captured!");
-                    },
-                    (error) => {
-                        alert("Location access denied or failed. Please type your address manually.");
-                        console.error(error);
-                    },
-                    { enableHighAccuracy: true }
-                );
-            } else {
-                alert("Geolocation is not supported by your browser.");
-            }
+        function setOrderType(type) {
+            selectedOrderType = type;
+            renderCartModalContent();
         }
 
         function renderCartModalContent() {
             const body = document.getElementById('cartModalBody');
             const footer = document.getElementById('cartModalFooter');
+            const title = document.getElementById('modalStepTitle');
 
             if (cart.length === 0) {
-                body.innerHTML = `<div class="py-20 text-center text-gray-400"><i class="fa-solid fa-basket-shopping text-5xl mb-3 text-gray-200"></i><p class="font-semibold text-gray-600">Your cart is empty</p></div>`;
-                footer.innerHTML = `<button onclick="toggleCartModal(false)" class="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-3 rounded-2xl transition">Start Shopping</button>`;
+                title.textContent = "Your Shopping Cart";
+                body.innerHTML = `<div class="py-16 text-center text-gray-400"><i class="fa-solid fa-basket-shopping text-5xl mb-3 text-gray-200"></i><p class="font-bold text-gray-600 text-sm">Aapka cart khali hai</p></div>`;
+                footer.innerHTML = `<button onclick="toggleCartModal(false)" class="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-3 rounded-2xl transition text-xs">Start Shopping</button>`;
                 return;
             }
 
             if (currentModalStep === 'cart') {
-                let itemsHtml = '<div class="space-y-4">';
+                title.textContent = "Step 1: Review Items";
+                let itemsHtml = '<div class="space-y-3">';
                 let subtotal = 0;
                 cart.forEach(item => {
                     subtotal += item.price * item.quantity;
                     itemsHtml += `
                         <div class="flex items-center justify-between bg-gray-50 p-3 rounded-2xl border border-gray-100">
                             <div class="flex items-center space-x-3">
-                                <img src="${item.image}" class="w-14 h-14 rounded-xl object-cover">
+                                <img src="${item.image}" class="w-12 h-12 rounded-xl object-cover">
                                 <div>
-                                    <h4 class="font-bold text-gray-900 text-sm line-clamp-1">${item.name}</h4>
-                                    <span class="text-xs text-brand-600 font-semibold">Rs. ${Number(item.price).toFixed(0)}</span>
+                                    <h4 class="font-bold text-gray-900 text-xs line-clamp-1">${item.name}</h4>
+                                    <span class="text-xs text-brand-600 font-extrabold">Rs. ${Number(item.price).toFixed(0)}</span>
                                 </div>
                             </div>
                             <div class="flex items-center space-x-2">
-                                <button onclick="updateQuantity('${item.firebaseKey}', -1)" class="w-7 h-7 bg-white border border-gray-200 rounded-lg flex items-center justify-center text-gray-600"><i class="fa-solid fa-minus text-xs"></i></button>
-                                <span class="w-6 text-center font-bold text-sm">${item.quantity}</span>
-                                <button onclick="updateQuantity('${item.firebaseKey}', 1)" class="w-7 h-7 bg-white border border-gray-200 rounded-lg flex items-center justify-center text-gray-600"><i class="fa-solid fa-plus text-xs"></i></button>
+                                <button onclick="updateQuantity('${item.firebaseKey}', -1)" class="w-7 h-7 bg-white border border-gray-200 rounded-lg flex items-center justify-center text-gray-600"><i class="fa-solid fa-minus text-[10px]"></i></button>
+                                <span class="w-5 text-center font-bold text-xs">${item.quantity}</span>
+                                <button onclick="updateQuantity('${item.firebaseKey}', 1)" class="w-7 h-7 bg-white border border-gray-200 rounded-lg flex items-center justify-center text-gray-600"><i class="fa-solid fa-plus text-[10px]"></i></button>
                             </div>
                         </div>
                     `;
@@ -508,66 +607,117 @@
                 body.innerHTML = itemsHtml;
 
                 footer.innerHTML = `
-                    <div class="space-y-2 mb-4 text-sm">
-                        <div class="flex justify-between text-gray-500"><span>Subtotal</span><span id="cartSubtotal" class="font-semibold text-gray-800">Rs. ${subtotal.toFixed(0)}</span></div>
-                        <div class="flex justify-between text-gray-500"><span>Delivery Charges</span><span class="text-xs font-semibold text-brand-600">Calculated by Admin</span></div>
-                        <div class="border-t border-gray-200 pt-2 flex justify-between font-bold text-gray-900 text-base"><span>Total (Items)</span><span id="cartGrandTotal" class="text-brand-600">Rs. ${subtotal.toFixed(0)}</span></div>
-                    </div>
-                    <button onclick="currentModalStep = 'checkout'; renderCartModalContent();" class="w-full bg-brand-500 hover:bg-brand-600 text-white font-semibold py-3.5 rounded-2xl shadow-lg transition">Proceed to Checkout</button>
+                    <div class="flex justify-between font-extrabold text-gray-900 text-sm mb-4"><span>Subtotal:</span><span class="text-brand-600">Rs. ${subtotal.toFixed(0)}</span></div>
+                    <button onclick="currentModalStep = 'checkout'; renderCartModalContent();" class="w-full bg-brand-500 hover:bg-brand-600 text-white font-bold py-3.5 rounded-2xl shadow-lg transition text-xs flex items-center justify-center space-x-2">
+                        <span>Select Delivery Destination</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
                 `;
             } else if (currentModalStep === 'checkout') {
-                const savedUser = JSON.parse(localStorage.getItem('zipsbite_customer')) || { name: '', phone: '', address: '' };
+                title.textContent = "Step 2: Delivery Destination & Details";
+                const saved = JSON.parse(localStorage.getItem('zipsbite_customer')) || { name: '', phone: '', address: '', shopName: '', floor: '' };
 
                 body.innerHTML = `
-                    <form id="checkoutForm" onsubmit="submitOrder(event)" class="space-y-4">
-                        <div><label class="block text-xs font-bold text-gray-600 uppercase mb-1">Full Name *</label><input type="text" id="custName" required value="${savedUser.name}" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm"></div>
-                        <div><label class="block text-xs font-bold text-gray-600 uppercase mb-1">Phone Number *</label><input type="tel" id="custPhone" required value="${savedUser.phone}" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm"></div>
+                    <div class="space-y-4">
                         <div>
-                            <label class="block text-xs font-bold text-gray-600 uppercase mb-1">Delivery Address / Location *</label>
-                            <div class="mb-2">
-                                <button type="button" onclick="getLiveLocation()" class="w-full bg-blue-50 hover:bg-blue-100 text-blue-600 border border-blue-200 py-2.5 rounded-xl text-xs font-semibold flex items-center justify-center space-x-2 transition">
-                                    <i class="fa-solid fa-location-crosshairs text-sm"></i>
-                                    <span>Send My Current GPS Location</span>
-                                </button>
+                            <label class="block text-[10px] font-bold text-gray-500 uppercase mb-2">Order Kahan Deliver Karna Hai?</label>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div onclick="setOrderType('home')" class="cursor-pointer p-3.5 rounded-2xl border-2 transition text-center ${selectedOrderType === 'home' ? 'border-brand-500 bg-brand-50 text-brand-700 font-bold' : 'border-gray-200 bg-gray-50 text-gray-600'}">
+                                    <i class="fa-solid fa-house text-xl mb-1 block"></i>
+                                    <span class="text-xs">Ghar Par (Home)</span>
+                                </div>
+                                <div onclick="setOrderType('shop')" class="cursor-pointer p-3.5 rounded-2xl border-2 transition text-center ${selectedOrderType === 'shop' ? 'border-brand-500 bg-brand-50 text-brand-700 font-bold' : 'border-gray-200 bg-gray-50 text-gray-600'}">
+                                    <i class="fa-solid fa-store text-xl mb-1 block"></i>
+                                    <span class="text-xs">Dukan / Office</span>
+                                </div>
                             </div>
-                            <textarea id="custAddress" required rows="2" placeholder="Type address or click GPS button above..." class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm">${savedUser.address || ''}</textarea>
                         </div>
-                    </form>
-                `;
-                const sub = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
-                footer.innerHTML = `
-                    <div class="space-y-2 mb-4 text-sm">
-                        <div class="flex justify-between text-gray-500"><span>Subtotal</span><span>Rs. ${sub.toFixed(0)}</span></div>
-                        <div class="flex justify-between text-gray-500"><span>Delivery Fee</span><span class="text-xs text-brand-600 font-semibold">Manual Quote</span></div>
-                        <div class="border-t pt-2 flex justify-between font-bold text-base"><span>Total</span><span class="text-brand-600">Rs. ${sub.toFixed(0)}</span></div>
+
+                        <form id="checkoutForm" onsubmit="event.preventDefault(); currentModalStep = 'confirm'; renderCartModalContent();" class="space-y-3">
+                            <div>
+                                <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Full Name *</label>
+                                <input type="text" id="custName" required value="${saved.name || ''}" placeholder="Aapka Poora Naam" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-3.5 py-2 text-xs font-medium focus:outline-none focus:border-brand-500">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Phone / Mobile Number *</label>
+                                <input type="tel" id="custPhone" required value="${saved.phone || ''}" placeholder="03XXXXXXXXX" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-3.5 py-2 text-xs font-medium focus:outline-none focus:border-brand-500">
+                            </div>
+
+                            ${selectedOrderType === 'shop' ? `
+                                <div>
+                                    <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Dukan / Office / Plaza Name *</label>
+                                    <input type="text" id="custShopName" required value="${saved.shopName || ''}" placeholder="e.g. Al-Madina Mobiles, Shop #12" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-3.5 py-2 text-xs font-medium focus:outline-none focus:border-brand-500">
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Floor / Commercial Location Notes</label>
+                                    <input type="text" id="custFloor" value="${saved.floor || ''}" placeholder="e.g. 1st Floor, Main Market Plaza" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-3.5 py-2 text-xs font-medium focus:outline-none focus:border-brand-500">
+                                </div>
+                            ` : ''}
+
+                            <div>
+                                <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Address / Landmark *</label>
+                                <textarea id="custAddress" required rows="2" placeholder="${selectedOrderType === 'home' ? 'House #, Street #, Area Name...' : 'Market Name, Main Road Landmark...'}" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-3.5 py-2 text-xs font-medium focus:outline-none focus:border-brand-500">${saved.address || ''}</textarea>
+                            </div>
+                        </form>
                     </div>
-                    <div class="flex space-x-3">
-                        <button onclick="currentModalStep = 'cart'; renderCartModalContent();" class="w-1/3 bg-gray-200 py-3.5 rounded-2xl font-semibold">Back</button>
-                        <button onclick="document.getElementById('checkoutForm').requestSubmit()" class="w-2/3 bg-brand-500 hover:bg-brand-600 text-white font-semibold py-3.5 rounded-2xl shadow-lg">Place Order</button>
+                `;
+
+                footer.innerHTML = `
+                    <div class="flex space-x-2">
+                        <button onclick="currentModalStep = 'cart'; renderCartModalContent();" class="w-1/3 bg-gray-200 hover:bg-gray-300 py-3 rounded-2xl font-bold text-xs text-gray-700">Back</button>
+                        <button onclick="document.getElementById('checkoutForm').requestSubmit()" class="w-2/3 bg-brand-500 hover:bg-brand-600 text-white font-bold py-3 rounded-2xl shadow-lg text-xs">Next: Confirm Order</button>
+                    </div>
+                `;
+            } else if (currentModalStep === 'confirm') {
+                title.textContent = "Step 3: Confirm & Place Order";
+                const sub = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
+                const name = document.getElementById('custName')?.value || '';
+                const phone = document.getElementById('custPhone')?.value || '';
+                const address = document.getElementById('custAddress')?.value || '';
+                const shopName = document.getElementById('custShopName')?.value || '';
+                const floor = document.getElementById('custFloor')?.value || '';
+
+                body.innerHTML = `
+                    <div class="bg-gray-50 p-4 rounded-2xl border border-gray-200 text-xs space-y-2">
+                        <h4 class="font-bold text-gray-900 border-b pb-2 flex justify-between">
+                            <span>Order Summary</span>
+                            <span class="text-brand-600 uppercase font-extrabold">[${selectedOrderType === 'home' ? '🏠 Ghar Delivery' : '🏬 Dukan Order'}]</span>
+                        </h4>
+                        <div class="flex justify-between text-gray-600"><span>Name:</span><span class="font-semibold text-gray-900">${name}</span></div>
+                        <div class="flex justify-between text-gray-600"><span>Phone:</span><span class="font-semibold text-gray-900">${phone}</span></div>
+                        ${selectedOrderType === 'shop' ? `
+                            <div class="flex justify-between text-gray-600"><span>Dukan / Office:</span><span class="font-bold text-brand-600">${shopName}</span></div>
+                            <div class="flex justify-between text-gray-600"><span>Floor/Details:</span><span class="font-semibold text-gray-900">${floor || 'N/A'}</span></div>
+                        ` : ''}
+                        <div class="flex justify-between text-gray-600"><span>Address:</span><span class="font-semibold text-gray-900 line-clamp-1">${address}</span></div>
+                        <div class="flex justify-between text-gray-600"><span>Payment Method:</span><span class="font-bold text-emerald-600">Cash on Delivery</span></div>
+                        <div class="border-t pt-2 flex justify-between font-bold text-sm text-gray-900"><span>Total Payable:</span><span class="text-brand-600">Rs. ${sub.toFixed(0)}</span></div>
+                    </div>
+                `;
+
+                footer.innerHTML = `
+                    <div class="flex space-x-2">
+                        <button onclick="currentModalStep = 'checkout'; renderCartModalContent();" class="w-1/3 bg-gray-200 hover:bg-gray-300 py-3 rounded-2xl font-bold text-xs text-gray-700">Back</button>
+                        <button onclick="submitOrder('${name}', '${phone}', '${address}', '${shopName}', '${floor}')" class="w-2/3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-2xl shadow-lg text-xs flex items-center justify-center space-x-2">
+                            <i class="fa-solid fa-check"></i>
+                            <span>Confirm Order Now</span>
+                        </button>
                     </div>
                 `;
             }
         }
 
-        function submitOrder(event) {
-            event.preventDefault();
-            const name = document.getElementById('custName').value.trim();
-            const phone = document.getElementById('custPhone').value.trim();
-            const address = document.getElementById('custAddress').value.trim();
-
-            localStorage.setItem('zipsbite_customer', JSON.stringify({ name, phone, address }));
-
+        function submitOrder(name, phone, address, shopName, floor) {
+            localStorage.setItem('zipsbite_customer', JSON.stringify({ name, phone, address, shopName, floor }));
             const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
             const orderId = 'ZB-' + Math.floor(10000 + Math.random() * 90000);
 
             const orderData = {
                 orderId,
-                customer: { name, phone, address },
-                latitude: capturedLat || null,
-                longitude: capturedLng || null,
+                orderType: selectedOrderType,
+                customer: { name, phone, address, shopName, floor },
                 items: cart.map(i => ({ name: i.name, price: i.price, quantity: i.quantity })),
                 subtotal: subtotal.toFixed(0),
-                deliveryFee: "Pending Manual Quote",
                 total: subtotal.toFixed(0),
                 status: "Pending",
                 deliveryTime: "30-40 mins",
@@ -575,13 +725,12 @@
             };
 
             if (db) {
-                // Push order and store key to track live updates from admin
                 const newOrderRef = db.ref('orders').push(orderData);
                 localStorage.setItem('zipsbite_active_order_key', newOrderRef.key);
-                listenToActiveOrder(newOrderRef.key);
             }
 
             document.getElementById('receiptOrderId').textContent = '#' + orderId;
+            document.getElementById('receiptLocationType').textContent = selectedOrderType === 'home' ? 'Ghar (Home)' : `Dukan: ${shopName}`;
             document.getElementById('receiptCustomerName').textContent = name;
             document.getElementById('receiptTotal').textContent = 'Rs. ' + subtotal.toFixed(0);
             document.getElementById('successModal').classList.remove('hidden');
@@ -591,13 +740,7 @@
             toggleCartModal(false);
         }
 
-        function closeSuccessModal() {
-            document.getElementById('successModal').classList.add('hidden');
-            const tracker = document.getElementById('activeOrderTracker');
-            if (tracker) {
-                tracker.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-        }
+        function closeSuccessModal() { document.getElementById('successModal').classList.add('hidden'); }
     </script>
 </body>
 </html>
